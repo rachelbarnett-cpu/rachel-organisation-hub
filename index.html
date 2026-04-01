@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rachel Barnett | Organisation Hub | Pubity Group</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card-hover: #222633;
+    --border: #2a2e3d;
+    --text: #e5e7eb;
+    --text-muted: #9ca3af;
+    --blue: #4a9eed;
+    --blue-bg: #1e3a5f;
+    --green: #22c55e;
+    --green-bg: #1a4d2e;
+    --amber: #f59e0b;
+    --amber-bg: #5c3d1a;
+    --red: #ef4444;
+    --red-bg: #5c1a1a;
+    --purple: #8b5cf6;
+    --purple-bg: #2d1b69;
+    --cyan: #06b6d4;
+    --cyan-bg: #1a4d4d;
+    --pink: #ec4899;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #1a1d27 0%, #1e3a5f 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  .header h1 span { color: var(--blue); }
+
+  .header-meta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .header-meta .role {
+    background: var(--blue-bg);
+    color: var(--blue);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  .live-dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 2s infinite;
+    margin-right: 6px;
+  }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 30px 40px 60px; }
+
+  .nav-tabs { display: flex; gap: 6px; margin-bottom: 30px; flex-wrap: wrap; }
+
+  .nav-tab {
+    padding: 9px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-tab:hover { background: var(--card-hover); color: var(--text); }
+  .nav-tab.active { background: var(--blue-bg); color: var(--blue); border-color: var(--blue); }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-title {
+    font-size: 18px; font-weight: 700; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .section-title .icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+  }
+
+  .grid { display: grid; gap: 16px; }
+  .grid-2 { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    border-color: #3a3e4d;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  }
+
+  .card-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+
+  .card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .card p, .card li { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+  .card ul { list-style: none; padding: 0; }
+  .card ul li { padding: 4px 0; padding-left: 18px; position: relative; }
+  .card ul li::before {
+    content: ''; position: absolute; left: 0; top: 12px;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted);
+  }
+
+  .badge {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  .badge-red { background: var(--red-bg); color: var(--red); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); }
+  .badge-green { background: var(--green-bg); color: var(--green); }
+  .badge-blue { background: var(--blue-bg); color: var(--blue); }
+  .badge-purple { background: var(--purple-bg); color: var(--purple); }
+
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+
+  .timeline-item { position: relative; padding-bottom: 24px; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -26px; top: 6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--blue); background: var(--bg);
+  }
+
+  .timeline-item.urgent::before { border-color: var(--red); background: var(--red-bg); }
+  .timeline-item.progress::before { border-color: var(--amber); background: var(--amber-bg); }
+  .timeline-item.done::before { border-color: var(--green); background: var(--green-bg); }
+
+  .timeline-date { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
+  .timeline-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .timeline-desc { font-size: 13px; color: var(--text-muted); }
+
+  .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
+  th {
+    background: var(--card); padding: 12px 16px; text-align: left;
+    font-weight: 600; font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.5px; color: var(--text-muted); border-bottom: 1px solid var(--border);
+  }
+
+  td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  tr:hover td { background: var(--card-hover); }
+
+  .time-bar { display: flex; height: 28px; border-radius: 8px; overflow: hidden; margin: 12px 0; }
+
+  .time-segment {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: #fff; transition: all 0.3s;
+  }
+
+  .time-segment:hover { filter: brightness(1.2); }
+
+  .phases { display: flex; gap: 0; margin: 16px 0; flex-wrap: wrap; }
+
+  .phase-item { flex: 1; min-width: 160px; padding: 16px 20px; text-align: center; }
+  .phase-num { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .phase-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .phase-weeks { font-size: 12px; color: var(--text-muted); }
+  .phase-focus { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.5; }
+
+  .trip-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 22px; transition: all 0.2s;
+  }
+
+  .trip-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+
+  .trip-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .trip-name { font-size: 17px; font-weight: 700; }
+  .trip-date { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+  .trip-detail { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+
+  .trip-attendees { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+  .attendee-chip {
+    background: var(--blue-bg); color: var(--blue);
+    padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 500;
+  }
+
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    padding: 8px 0; padding-left: 28px; position: relative;
+    font-size: 14px; color: var(--text-muted);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .checklist li::before {
+    content: ''; position: absolute; left: 0; top: 11px;
+    width: 16px; height: 16px; border-radius: 4px; border: 2px solid var(--border);
+  }
+  .checklist li.done { color: var(--green); text-decoration: line-through; opacity: 0.6; }
+  .checklist li.done::before { background: var(--green); border-color: var(--green); }
+
+  .doc-link {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; text-decoration: none; color: var(--text); transition: all 0.2s;
+    font-size: 14px;
+  }
+
+  .doc-link:hover { border-color: var(--blue); background: var(--card-hover); }
+
+  .doc-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+
+  .doc-info { flex: 1; }
+  .doc-name { font-weight: 600; font-size: 14px; }
+  .doc-desc { font-size: 12px; color: var(--text-muted); }
+
+  .rhythm-block {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px; margin-bottom: 16px;
+  }
+
+  .rhythm-time { font-size: 13px; font-weight: 700; color: var(--cyan); margin-bottom: 4px; }
+  .rhythm-task { font-size: 15px; font-weight: 500; }
+  .rhythm-note { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  .sheet-embed {
+    width: 100%; border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; margin: 16px 0; background: #fff;
+  }
+
+  .sheet-embed iframe { width: 100%; height: 500px; border: none; }
+
+  .sheet-label {
+    font-size: 13px; font-weight: 600; color: var(--text-muted);
+    margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+  }
+
+  .sheet-label .live-badge {
+    background: var(--green-bg); color: var(--green);
+    padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700;
+  }
+
+  .alert-banner {
+    background: linear-gradient(135deg, var(--red-bg), #3d1515);
+    border: 1px solid var(--red); border-radius: 12px;
+    padding: 16px 22px; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .alert-banner .alert-icon { font-size: 20px; flex-shrink: 0; color: var(--red); font-weight: 800; }
+  .alert-banner .alert-text { font-size: 14px; font-weight: 500; color: var(--red); }
+
+  .spacer { height: 30px; }
+
+  .sub-tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+  .sub-tab {
+    padding: 8px 16px; background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500;
+    color: var(--text-muted); transition: all 0.2s;
+  }
+  .sub-tab:hover { background: var(--card-hover); color: var(--text); }
+  .sub-tab.active { background: var(--amber-bg); color: var(--amber); border-color: var(--amber); }
+
+  .sub-section { display: none; }
+  .sub-section.active { display: block; }
+
+  .seller-tab {
+    padding: 8px 16px; background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500;
+    color: var(--text-muted); transition: all 0.2s;
+  }
+  .seller-tab:hover { background: var(--card-hover); color: var(--text); }
+  .seller-tab.active { background: var(--purple-bg); color: var(--purple); border-color: var(--purple); }
+
+  .seller-section { display: none; }
+  .seller-section.active { display: block; }
+
+  .ask-rachel-box {
+    background: linear-gradient(135deg, var(--purple-bg), #1a1040);
+    border: 1px solid var(--purple);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .ask-rachel-box h4 {
+    color: var(--purple);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .ask-rachel-box textarea {
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    resize: vertical;
+    min-height: 60px;
+  }
+
+  .ask-rachel-box textarea::placeholder { color: var(--text-muted); }
+
+  .ask-rachel-box button {
+    margin-top: 8px;
+    padding: 8px 20px;
+    background: var(--purple);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .ask-rachel-box button:hover { filter: brightness(1.2); }
+
+  .request-item {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+  }
+
+  .request-item .timestamp { font-size: 11px; color: var(--text-muted); }
+
+  .pipeline-total {
+    background: linear-gradient(135deg, var(--green-bg), #0d2818);
+    border: 1px solid var(--green);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .pipeline-total .amount { font-size: 36px; font-weight: 800; color: var(--green); }
+  .pipeline-total .label { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+  .health-fire { color: #f97316; }
+  .health-strong { color: var(--green); }
+  .health-building { color: var(--blue); }
+
+  .event-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .event-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .event-card .event-date { font-size: 14px; color: var(--amber); font-weight: 600; margin-bottom: 12px; }
+
+  .dashboard-embed {
+    width: 100%; border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; background: #fff;
+  }
+
+  .dashboard-embed iframe { width: 100%; height: 700px; border: none; }
+
+  @media (max-width: 768px) {
+    .header { padding: 20px; }
+    .container { padding: 20px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .nav-tabs { gap: 4px; }
+    .nav-tab { padding: 7px 12px; font-size: 12px; }
+    .phases { flex-direction: column; }
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <h1><span>Rachel Barnett</span> | Organisation Hub</h1>
+    <div class="header-meta">
+      <span class="role">Sales Account Manager</span>
+      <span>Pubity Group</span>
+      <span><span class="live-dot"></span>Live</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="alert-banner">
+    <span class="alert-icon">!</span>
+    <span class="alert-text">POSSIBLE Miami (27-29 Apr) tickets BOOKED. App launches 13 Apr. Sellers need 4 pre-booked meetings each. Cannes criteria deadline: 1 June.</span>
+  </div>
+
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="switchTab('overview')">Overview</div>
+    <div class="nav-tab" onclick="switchTab('pipeline')">Pipeline</div>
+    <div class="nav-tab" onclick="switchTab('seller-hub')">Seller Hub</div>
+    <div class="nav-tab" onclick="switchTab('daily')">Daily & Weekly</div>
+    <div class="nav-tab" onclick="switchTab('projects')">Active Projects</div>
+    <div class="nav-tab" onclick="switchTab('trips')">Trips & Conferences</div>
+    <div class="nav-tab" onclick="switchTab('events')">Events</div>
+    <div class="nav-tab" onclick="switchTab('hubspot')">HubSpot CRM</div>
+    <div class="nav-tab" onclick="switchTab('gifting')">Gifting</div>
+    <div class="nav-tab" onclick="switchTab('strategic')">Strategic Accounts</div>
+    <div class="nav-tab" onclick="switchTab('resources')">Resources</div>
+    <div class="nav-tab" onclick="switchTab('outreach')">Outreach</div>
+    <div class="nav-tab" onclick="switchTab('missing-data')">Missing Data</div>
+    <div class="nav-tab" onclick="switchTab('am-roles')">AM Roles</div>
+    <div class="nav-tab" onclick="switchTab('role-plan')">SAM Role Plan</div>
+  </div>
+
+  <!-- ==================== OVERVIEW ==================== -->
+  <div class="section active" id="overview">
+    <div class="section-title">
+      <div class="icon" style="background:var(--blue-bg);">R</div>
+      Role at a Glance
+    </div>
+
+    <div class="card" style="margin-bottom:24px;">
+      <p>Rachel Barnett is Sales Account Manager at Pubity Group, overseeing revenue operations, CRM accuracy, client relationships, and seller performance across a team of 6 sellers. She manages Josh Doherty (Revenue Operations Executive) and works closely with Seb.</p>
+      <p style="margin-top:8px;">The role is built around one main project (HubSpot) and several supporting workstreams running in parallel &mdash; Finance, Gifting, Onboarding, Travel, LinkedIn, and weekly seller sessions.</p>
+      <div style="margin-top:16px;">
+        <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:6px;">WEEKLY TIME ALLOCATION (40 hrs)</div>
+        <div class="time-bar">
+          <div class="time-segment" style="width:40%;background:var(--blue);">Slack Hygiene 40%</div>
+          <div class="time-segment" style="width:20%;background:var(--amber);">Finance 20%</div>
+          <div class="time-segment" style="width:15%;background:var(--purple);">CRM 15%</div>
+          <div class="time-segment" style="width:10%;background:var(--cyan);">Travel 10%</div>
+          <div class="time-segment" style="width:10%;background:var(--green);">Gifting 10%</div>
+          <div class="time-segment" style="width:5%;background:var(--pink);">LinkedIn 5%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline-total">
+      <div class="amount">$18,016,600</div>
+      <div class="label">Total Active Pipeline &mdash; 6 sellers &mdash; synced from HubSpot</div>
+    </div>
+
+    <div class="section-title" style="margin-top:30px;">
+      <div class="icon" style="background:var(--green-bg);">P</div>
+      Project Status Overview
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card" style="cursor:pointer;" onclick="switchTab('pipeline')">
+        <div class="card-accent" style="background:var(--green);"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <h3>Live Pipeline</h3>
+          <span class="badge badge-green">$18M</span>
+        </div>
+        <p>6 sellers active. Allie leads at $6.85M. Toblerone at 90% close. View full pipeline breakdown.</p>
+      </div>
+
+      <div class="card" style="cursor:pointer;" onclick="switchTab('gifting')">
+        <div class="card-accent" style="background:var(--amber);"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <h3>Client Gifting</h3>
+          <span class="badge badge-amber">In Progress</span>
+        </div>
+        <p>Q1 end-of-quarter gifting due mid-April. Seb approval needed. Gold/silver/bronze tier labels outstanding.</p>
+      </div>
+
+      <div class="card" style="cursor:pointer;" onclick="switchTab('hubspot')">
+        <div class="card-accent" style="background:var(--red);"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <h3>HubSpot CRM</h3>
+          <span class="badge badge-red">Not Started</span>
+        </div>
+        <p>23 tasks across 4 phases over 8 weeks. Owner: RevOps Exec. Rachel owns sign-off.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-accent" style="background:var(--green);"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <h3>Seller Onboarding</h3>
+          <span class="badge badge-green">Built</span>
+        </div>
+        <p>Giselle's interactive onboarding guide completed. Full PCA data integrated from Monday.com.</p>
+      </div>
+
+      <div class="card" style="cursor:pointer;" onclick="switchTab('trips')">
+        <div class="card-accent" style="background:var(--amber);"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <h3>Trips & Conferences</h3>
+          <span class="badge badge-amber">Multiple Active</span>
+        </div>
+        <p>5 trips in planning: HIP EMEA (3 Apr), Middle East, POSSIBLE Miami (27 Apr), HIP LA, Cannes Lions (22 Jun).</p>
+      </div>
+
+      <div class="card" style="cursor:pointer;" onclick="switchTab('outreach')">
+        <div class="card-accent" style="background:var(--cyan);"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <h3>Outreach</h3>
+          <span class="badge badge-blue">Active</span>
+        </div>
+        <p>Client outreach tracker. Complete outreach tasks per seller from the master spreadsheet.</p>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="section-title">
+      <div class="icon" style="background:var(--green-bg);">W</div>
+      Deals Closed Won This Week
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:24px;">
+      <table>
+        <tr><th>Deal</th><th>Value</th><th>Seller</th></tr>
+        <tr><td style="font-weight:600;">Higgsfield AI: Always On Q2</td><td style="color:var(--green);">$285,000</td><td>Myles Chilvers</td></tr>
+        <tr><td style="font-weight:600;">Michelob Ultra: Olympics + Super Bowl</td><td style="color:var(--green);">$175,000</td><td>Dustin Thaler</td></tr>
+        <tr><td style="font-weight:600;">Peacock: The Miniature Wife Q2</td><td style="color:var(--green);">$175,000</td><td>Allie Greenwald</td></tr>
+        <tr><td style="font-weight:600;">Google: Pixel Amp</td><td style="color:var(--green);">$30,000</td><td>Alexander Sijpesteijn</td></tr>
+      </table>
+    </div>
+
+    <div class="section-title">
+      <div class="icon" style="background:var(--amber-bg);">T</div>
+      Upcoming Timeline
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item urgent">
+        <div class="timeline-date">Thu 3 April 2026</div>
+        <div class="timeline-title">HIP EMEA - Silver Pixel Awards</div>
+        <div class="timeline-desc">The Arches, London Bridge. Myles + Alex G + 5-6 guests.</div>
+      </div>
+      <div class="timeline-item urgent">
+        <div class="timeline-date">Mid-April 2026</div>
+        <div class="timeline-title">Q1 Client Gifting Orders Due</div>
+        <div class="timeline-desc">Seb approval needed. Orders must be placed by early-to-mid April.</div>
+      </div>
+      <div class="timeline-item progress">
+        <div class="timeline-date">April 2026 (TBC)</div>
+        <div class="timeline-title">Middle East Sales Trip</div>
+        <div class="timeline-desc">Full itinerary in SharePoint Planner. Dates and attendees TBC.</div>
+      </div>
+      <div class="timeline-item urgent">
+        <div class="timeline-date">27-29 April 2026</div>
+        <div class="timeline-title">POSSIBLE Miami Conference</div>
+        <div class="timeline-desc">Fontainebleau + Eden Roc. 6 attendees. BOOK HOTELS NOW - South Beach only.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Spring 2026 (TBC)</div>
+        <div class="timeline-title">HIP LA</div>
+        <div class="timeline-desc">Marquee annual edition. Contact Bettina Sherick for info.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">1 June 2026</div>
+        <div class="timeline-title">Cannes Attendance Criteria Deadline</div>
+        <div class="timeline-desc">40% of Q3 target + 5 meetings pre-booked + 80% Q1/Q2 targets.</div>
+      </div>
+      <div class="timeline-item progress">
+        <div class="timeline-date">22-26 June 2026</div>
+        <div class="timeline-title">Cannes Lions Festival</div>
+        <div class="timeline-desc">7 attendees. Book Airbnb (10 min beachfront), collect airline/FF details.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PIPELINE ==================== -->
+  <div class="section" id="pipeline">
+    <div class="section-title">
+      <div class="icon" style="background:var(--green-bg);">$</div>
+      Live HubSpot Pipeline
+    </div>
+
+    <div class="pipeline-total">
+      <div class="amount">$18,016,600</div>
+      <div class="label">Total Active Pipeline &mdash; 6 active sellers &mdash; last synced from HubSpot 27 Mar 2026</div>
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:30px;">
+      <table>
+        <tr><th>Seller</th><th>Active Pipeline</th><th>Top Deal</th><th>Top Deal Value</th><th>Health</th></tr>
+        <tr style="cursor:pointer;" onclick="switchTab('seller-hub');switchSeller('allie')">
+          <td style="font-weight:600;">Allie Greenwald</td><td style="color:var(--green);font-weight:600;">$6,850,000</td><td>SharkNina: Media Days</td><td>$5,000,000</td><td class="health-fire">&#128293; Dominant</td>
+        </tr>
+        <tr style="cursor:pointer;" onclick="switchTab('seller-hub');switchSeller('myles')">
+          <td style="font-weight:600;">Myles Chilvers</td><td style="color:var(--green);font-weight:600;">$3,293,600</td><td>Warner Bros: Animal Friends</td><td>$500,000</td><td class="health-strong">&#9989; Strong</td>
+        </tr>
+        <tr style="cursor:pointer;" onclick="switchTab('seller-hub');switchSeller('alex')">
+          <td style="font-weight:600;">Alexander Sijpesteijn</td><td style="color:var(--green);font-weight:600;">$3,078,000</td><td>Visit Abu Dhabi FY26</td><td>$1,200,000</td><td class="health-strong">&#9989; Strong</td>
+        </tr>
+        <tr style="cursor:pointer;" onclick="switchTab('seller-hub');switchSeller('dustin')">
+          <td style="font-weight:600;">Dustin Thaler</td><td style="color:var(--green);font-weight:600;">$1,900,000</td><td>Uncrustables Campus</td><td>$500,000</td><td class="health-building">&#128200; Building</td>
+        </tr>
+        <tr style="cursor:pointer;" onclick="switchTab('seller-hub');switchSeller('nina')">
+          <td style="font-weight:600;">Nina Kammer</td><td style="color:var(--green);font-weight:600;">$1,445,000</td><td>Forgotten Island</td><td>$285,000</td><td class="health-building">&#128200; Building</td>
+        </tr>
+        <tr style="cursor:pointer;" onclick="switchTab('seller-hub');switchSeller('brianna')">
+          <td style="font-weight:600;">Brianna Simons</td><td style="color:var(--green);font-weight:600;">$1,400,000</td><td>Hershey: Happy Place</td><td>$600,000</td><td class="health-building">&#128200; Building</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section-title">
+      <div class="icon" style="background:var(--green-bg);">W</div>
+      Deals Closed Won This Week
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>Deal</th><th>Value</th><th>Seller</th></tr>
+        <tr><td style="font-weight:600;">Higgsfield AI: Always On Q2</td><td style="color:var(--green);">$285,000</td><td>Myles Chilvers</td></tr>
+        <tr><td style="font-weight:600;">Michelob Ultra: Olympics + Super Bowl</td><td style="color:var(--green);">$175,000</td><td>Dustin Thaler</td></tr>
+        <tr><td style="font-weight:600;">Peacock: The Miniature Wife Q2</td><td style="color:var(--green);">$175,000</td><td>Allie Greenwald</td></tr>
+        <tr><td style="font-weight:600;">Google: Pixel Amp</td><td style="color:var(--green);">$30,000</td><td>Alexander Sijpesteijn</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ==================== SELLER HUB ==================== -->
+  <div class="section" id="seller-hub">
+    <div class="section-title">
+      <div class="icon" style="background:var(--purple-bg);">S</div>
+      Seller Hub &mdash; Deals, Tasks & Requests
+    </div>
+    <p style="color:var(--text-muted);margin-bottom:20px;font-size:14px;">Per-seller pipeline, weekly checklist, and requests for Rachel. Click a seller to view their details.</p>
+
+    <div class="sub-tabs" style="margin-bottom:24px;">
+      <div class="seller-tab active" onclick="switchSeller('allie')">Allie ($6.85M)</div>
+      <div class="seller-tab" onclick="switchSeller('myles')">Myles ($3.29M)</div>
+      <div class="seller-tab" onclick="switchSeller('alex')">Alex ($3.08M)</div>
+      <div class="seller-tab" onclick="switchSeller('dustin')">Dustin ($1.9M)</div>
+      <div class="seller-tab" onclick="switchSeller('nina')">Nina ($1.45M)</div>
+      <div class="seller-tab" onclick="switchSeller('brianna')">Brianna ($1.4M)</div>
+    </div>
+
+    <!-- ALLIE -->
+    <div class="seller-section active" id="allie">
+      <div class="grid grid-2">
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <h3>Allie Greenwald &mdash; Active Deals</h3>
+              <span class="badge badge-green">$6,850,000</span>
+            </div>
+            <p style="margin-bottom:12px;">Largest pipeline on the team, driven by the high-value SharkNina: Media Days deal at 60% close probability.</p>
+            <div class="table-wrap">
+              <table>
+                <tr><th>Deal</th><th>Value</th><th>Stage</th><th>Close</th></tr>
+                <tr><td>SharkNina: Media Days</td><td>$5,000,000</td><td>60%</td><td>&mdash;</td></tr>
+                <tr><td>Amazon Prime Video: Ride or Die S1</td><td>$250,000</td><td>60%</td><td>&mdash;</td></tr>
+                <tr><td>STARZ: Fightland S1</td><td>$250,000</td><td>40%</td><td>&mdash;</td></tr>
+                <tr><td>ABC: Fall Premieres</td><td>$250,000</td><td>40%</td><td>Mar 31</td></tr>
+                <tr><td>Amazon Retail Q1</td><td>$300,000</td><td>5%</td><td>&mdash;</td></tr>
+                <tr><td>Amazon Health Q1</td><td>$250,000</td><td>5%</td><td>&mdash;</td></tr>
+                <tr><td>Clorox Burt's Bees Q1</td><td>$250,000</td><td>5%</td><td>&mdash;</td></tr>
+                <tr><td>Clorox Brita Q1</td><td>$250,000</td><td>5%</td><td>&mdash;</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <h3 style="color:var(--cyan);">Weekly Checklist</h3>
+            <ul class="checklist" style="margin-top:12px;">
+              <li>HubSpot fully updated (stage, value, close date, next step on every deal)</li>
+              <li>Minimum 5 meetings booked/completed</li>
+              <li>All follow-ups from last week sent</li>
+              <li>New leads created as deals in HubSpot within 24hrs</li>
+              <li>Next steps are specific ("send proposal by Thursday" not "follow up")</li>
+            </ul>
+          </div>
+
+          <div class="ask-rachel-box">
+            <h4>&#128233; Needs from Rachel / Ask Rachel</h4>
+            <div id="allie-requests"></div>
+            <textarea id="allie-input" placeholder="Type what you need Rachel's help with..."></textarea>
+            <button onclick="addRequest('allie')">Add Request</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MYLES -->
+    <div class="seller-section" id="myles">
+      <div class="grid grid-2">
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <h3>Myles Chilvers &mdash; Active Deals</h3>
+              <span class="badge badge-green">$3,293,600</span>
+            </div>
+            <p style="margin-bottom:12px;">Diversified portfolio across entertainment, gaming, and tech. Toblerone at 90% &mdash; close this week.</p>
+            <div class="table-wrap">
+              <table>
+                <tr><th>Deal</th><th>Value</th><th>Stage</th><th>Close</th></tr>
+                <tr><td>Warner Bros: Animal Friends</td><td>$500,000</td><td>40%</td><td>&mdash;</td></tr>
+                <tr><td>Paramount: Passenger</td><td>$350,000</td><td>40%</td><td>&mdash;</td></tr>
+                <tr><td>Paramount: Scary Movie 6 (Global)</td><td>$285,600</td><td>60%</td><td>&mdash;</td></tr>
+                <tr style="background:rgba(34,197,94,0.1);"><td style="color:var(--green);font-weight:600;">Toblerone Fathers Day</td><td>$250,000</td><td style="color:var(--green);font-weight:600;">90%</td><td>&mdash;</td></tr>
+                <tr><td>Fortnite: Demon Slayer</td><td>$250,000</td><td>40%</td><td>&mdash;</td></tr>
+                <tr><td>Fortnite: Save The World</td><td>$250,000</td><td>40%</td><td>&mdash;</td></tr>
+                <tr><td>Liquid Advertising: Fall Title</td><td>$250,000</td><td>40%</td><td>&mdash;</td></tr>
+                <tr><td>Warner Bros: Cut Off</td><td>$250,000</td><td>40%</td><td>&mdash;</td></tr>
+                <tr><td>Paramount: Scary Movie 6 (US)</td><td>$250,000</td><td>40%</td><td>&mdash;</td></tr>
+                <tr><td>Nerds: Gummy Clusters</td><td>$248,000</td><td>20%</td><td>&mdash;</td></tr>
+                <tr><td>Prime Video: It's on Prime</td><td>$250,000</td><td>20%</td><td>&mdash;</td></tr>
+                <tr><td>Polymarket: Tentpole Renewal</td><td>$120,000</td><td>5%</td><td>&mdash;</td></tr>
+                <tr><td>Whop: X Campaign</td><td>$40,000</td><td>40%</td><td>&mdash;</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <h3 style="color:var(--cyan);">Weekly Checklist</h3>
+            <ul class="checklist" style="margin-top:12px;">
+              <li>HubSpot fully updated (stage, value, close date, next step on every deal)</li>
+              <li>Minimum 5 meetings booked/completed</li>
+              <li>All follow-ups from last week sent</li>
+              <li>New leads created as deals in HubSpot within 24hrs</li>
+              <li>Next steps are specific ("send proposal by Thursday" not "follow up")</li>
+            </ul>
+          </div>
+          <div class="ask-rachel-box">
+            <h4>&#128233; Needs from Rachel / Ask Rachel</h4>
+            <div id="myles-requests"></div>
+            <textarea id="myles-input" placeholder="Type what you need Rachel's help with..."></textarea>
+            <button onclick="addRequest('myles')">Add Request</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALEX -->
+    <div class="seller-section" id="alex">
+      <div class="grid grid-2">
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <h3>Alexander Sijpesteijn &mdash; Active Deals</h3>
+              <span class="badge badge-green">$3,078,000</span>
+            </div>
+            <p style="margin-bottom:12px;">Leads the UK pipeline. Visit Abu Dhabi at $1.2M is the priority &mdash; needs stage progression.</p>
+            <div class="table-wrap">
+              <table>
+                <tr><th>Deal</th><th>Value</th><th>Stage</th><th>Close</th></tr>
+                <tr><td>Visit Abu Dhabi: FY26</td><td>$1,200,000</td><td>40%</td><td>Dec 31</td></tr>
+                <tr><td>Duelbits: World Cup</td><td>$750,000</td><td>60%</td><td>Feb 28</td></tr>
+                <tr><td>Muller: Corner Collab</td><td>$280,000</td><td>40%</td><td>Mar 31</td></tr>
+                <tr><td>Britvic: Tango</td><td>$270,000</td><td>40%</td><td>Mar 31</td></tr>
+                <tr><td>Carlsberg: ICD</td><td>$218,000</td><td>40%</td><td>Mar 31</td></tr>
+                <tr><td>IRN Bru: Maverick</td><td>$180,000</td><td>40%</td><td>Jan 31</td></tr>
+                <tr><td>Muller: FRIJJ</td><td>$125,000</td><td>60%</td><td>Jan 31</td></tr>
+                <tr><td>Goodwoof</td><td>$55,000</td><td>40%</td><td>Mar 31</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <h3 style="color:var(--cyan);">Weekly Checklist</h3>
+            <ul class="checklist" style="margin-top:12px;">
+              <li>HubSpot fully updated (stage, value, close date, next step on every deal)</li>
+              <li>Minimum 5 meetings booked/completed</li>
+              <li>All follow-ups from last week sent</li>
+              <li>New leads created as deals in HubSpot within 24hrs</li>
+              <li>Next steps are specific ("send proposal by Thursday" not "follow up")</li>
+            </ul>
+          </div>
+          <div class="ask-rachel-box">
+            <h4>&#128233; Needs from Rachel / Ask Rachel</h4>
+            <div id="alex-requests"></div>
+            <textarea id="alex-input" placeholder="Type what you need Rachel's help with..."></textarea>
+            <button onclick="addRequest('alex')">Add Request</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DUSTIN -->
+    <div class="seller-section" id="dustin">
+      <div class="grid grid-2">
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <h3>Dustin Thaler &mdash; Active Deals</h3>
+              <span class="badge badge-green">$1,900,000</span>
+            </div>
+            <p style="margin-bottom:12px;">GMI/CPG-heavy pipeline. Three deals at 40-60% need proposals and clear next steps logged.</p>
+            <div class="table-wrap">
+              <table>
+                <tr><th>Deal</th><th>Value</th><th>Stage</th><th>Close</th></tr>
+                <tr><td>Uncrustables College Campus</td><td>$500,000</td><td>40%</td><td>&mdash;</td></tr>
+                <tr><td>GMI Pillsbury Any Day</td><td>$400,000</td><td>40%</td><td>&mdash;</td></tr>
+                <tr><td>GMI Pillsbury Holiday</td><td>$300,000</td><td>60%</td><td>&mdash;</td></tr>
+                <tr><td>GMI Totinos Summer</td><td>$200,000</td><td>60%</td><td>Apr 17</td></tr>
+                <tr><td>Michelob Ultra World Cup</td><td>$175,000</td><td>10%</td><td>&mdash;</td></tr>
+                <tr><td>DraftKings NBA Playoffs</td><td>$125,000</td><td>5%</td><td>&mdash;</td></tr>
+                <tr><td>Nintendo Amplification</td><td>$100,000</td><td>10%</td><td>Jun 30</td></tr>
+                <tr><td>Crocs Super Mario Q2</td><td>$100,000</td><td>10%</td><td>Apr 15</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <h3 style="color:var(--cyan);">Weekly Checklist</h3>
+            <ul class="checklist" style="margin-top:12px;">
+              <li>HubSpot fully updated (stage, value, close date, next step on every deal)</li>
+              <li>Minimum 5 meetings booked/completed</li>
+              <li>All follow-ups from last week sent</li>
+              <li>New leads created as deals in HubSpot within 24hrs</li>
+              <li>Next steps are specific ("send proposal by Thursday" not "follow up")</li>
+            </ul>
+          </div>
+          <div class="ask-rachel-box">
+            <h4>&#128233; Needs from Rachel / Ask Rachel</h4>
+            <div id="dustin-requests"></div>
+            <textarea id="dustin-input" placeholder="Type what you need Rachel's help with..."></textarea>
+            <button onclick="addRequest('dustin')">Add Request</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NINA -->
+    <div class="seller-section" id="nina">
+      <div class="grid grid-2">
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <h3>Nina Kammer &mdash; Active Deals</h3>
+              <span class="badge badge-green">$1,445,000</span>
+            </div>
+            <p style="margin-bottom:12px;">Entertainment and gaming focused. Universal Disclosure Day &mdash; confirm status.</p>
+            <div class="table-wrap">
+              <table>
+                <tr><th>Deal</th><th>Value</th><th>Stage</th><th>Close</th></tr>
+                <tr><td>Forgotten Island</td><td>$285,000</td><td>60%</td><td>Aug 31</td></tr>
+                <tr><td>Spa Weekend</td><td>$250,000</td><td>10%</td><td>Aug 7</td></tr>
+                <tr><td>Universal Disclosure Day</td><td>$200,000</td><td>60%</td><td style="color:var(--red);font-weight:600;">Mar 27</td></tr>
+                <tr><td>EA Sports Brand</td><td>$150,000</td><td>10%</td><td>Mar 31</td></tr>
+                <tr><td>Xbox Forza Horizon 6</td><td>$150,000</td><td>10%</td><td>Apr 24</td></tr>
+                <tr><td>Total War: Warhammer 40K</td><td>$150,000</td><td>10%</td><td>Oct 31</td></tr>
+                <tr><td>Masters of the Universe</td><td>$150,000</td><td>5%</td><td>Mar 31</td></tr>
+                <tr><td>In the Grey</td><td>$60,000</td><td>60%</td><td>Apr 24</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <h3 style="color:var(--cyan);">Weekly Checklist</h3>
+            <ul class="checklist" style="margin-top:12px;">
+              <li>HubSpot fully updated (stage, value, close date, next step on every deal)</li>
+              <li>Minimum 5 meetings booked/completed</li>
+              <li>All follow-ups from last week sent</li>
+              <li>New leads created as deals in HubSpot within 24hrs</li>
+              <li>Next steps are specific ("send proposal by Thursday" not "follow up")</li>
+            </ul>
+          </div>
+          <div class="ask-rachel-box">
+            <h4>&#128233; Needs from Rachel / Ask Rachel</h4>
+            <div id="nina-requests"></div>
+            <textarea id="nina-input" placeholder="Type what you need Rachel's help with..."></textarea>
+            <button onclick="addRequest('nina')">Add Request</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRIANNA -->
+    <div class="seller-section" id="brianna">
+      <div class="grid grid-2">
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <h3>Brianna Simons &mdash; Active Deals</h3>
+              <span class="badge badge-green">$1,400,000</span>
+            </div>
+            <p style="margin-bottom:12px;">Concentrated pipeline. Hershey at 80% is the priority close &mdash; get contracts confirmed this week.</p>
+            <div class="table-wrap">
+              <table>
+                <tr><th>Deal</th><th>Value</th><th>Stage</th><th>Close</th></tr>
+                <tr style="background:rgba(34,197,94,0.1);"><td style="color:var(--green);font-weight:600;">Hershey: It's Your Happy Place</td><td>$600,000</td><td style="color:var(--green);font-weight:600;">80%</td><td>Dec 31</td></tr>
+                <tr><td>Little Caesars: Hot-N-Ready</td><td>$500,000</td><td>60%</td><td>Feb 28</td></tr>
+                <tr><td>Fitafy: 12 Month Retainer</td><td>$300,000</td><td>20%</td><td>&mdash;</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:16px;">
+            <h3 style="color:var(--cyan);">Weekly Checklist</h3>
+            <ul class="checklist" style="margin-top:12px;">
+              <li>HubSpot fully updated (stage, value, close date, next step on every deal)</li>
+              <li>Minimum 5 meetings booked/completed</li>
+              <li>All follow-ups from last week sent</li>
+              <li>New leads created as deals in HubSpot within 24hrs</li>
+              <li>Next steps are specific ("send proposal by Thursday" not "follow up")</li>
+            </ul>
+          </div>
+          <div class="ask-rachel-box">
+            <h4>&#128233; Needs from Rachel / Ask Rachel</h4>
+            <div id="brianna-requests"></div>
+            <textarea id="brianna-input" placeholder="Type what you need Rachel's help with..."></textarea>
+            <button onclick="addRequest('brianna')">Add Request</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DAILY & WEEKLY ==================== -->
+  <div class="section" id="daily">
+    <div class="section-title">
+      <div class="icon" style="background:var(--purple-bg);">D</div>
+      Daily & Weekly Rhythm
+    </div>
+    <p style="color:var(--text-muted);margin-bottom:20px;font-size:14px;">Non-negotiable recurring tasks. These are the baseline.</p>
+
+    <div class="grid grid-2">
+      <div>
+        <h3 style="margin-bottom:12px;color:var(--cyan);">Every Day</h3>
+        <div class="rhythm-block">
+          <div class="rhythm-time">9:00 - 11:00 AM</div>
+          <div class="rhythm-task">Update Monday Board + Chase IOs</div>
+          <div class="rhythm-note">Check all pending insertion orders, update statuses, follow up with sellers</div>
+        </div>
+        <div class="rhythm-block">
+          <div class="rhythm-time">11:00 - 11:20 AM</div>
+          <div class="rhythm-task">Media Form Check-in</div>
+        </div>
+        <div class="rhythm-block">
+          <div class="rhythm-time">Ongoing</div>
+          <div class="rhythm-task">NDA Check-in</div>
+          <div class="rhythm-note" style="color:var(--amber);">Automation needed</div>
+        </div>
+        <div class="rhythm-block">
+          <div class="rhythm-time">1:00 - 3:00 PM</div>
+          <div class="rhythm-task">Slack Channel Up-to-Date Check-in</div>
+          <div class="rhythm-note">Audit deal channels, RFI usage, naming, comms standards, client pod hygiene</div>
+        </div>
+        <div class="rhythm-block">
+          <div class="rhythm-time">As Needed</div>
+          <div class="rhythm-task">Calendar Ad Schedule Questions</div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="margin-bottom:12px;color:var(--purple);">Every Week</h3>
+        <div class="rhythm-block">
+          <div class="rhythm-time">Monday 9:00 AM</div>
+          <div class="rhythm-task">Check Excel for Weekly Pipeline</div>
+        </div>
+        <div class="rhythm-block">
+          <div class="rhythm-time">Monday</div>
+          <div class="rhythm-task">Meeting Notes Shared + Fireflies Sent</div>
+        </div>
+        <div class="rhythm-block">
+          <div class="rhythm-time">Friday 2:00 PM</div>
+          <div class="rhythm-task">Check Excel for Weekly Wrap</div>
+        </div>
+        <div class="rhythm-block">
+          <div class="rhythm-time">Friday</div>
+          <div class="rhythm-task">Call with Sellers: CRM Updates + IO + NCF Chase</div>
+        </div>
+        <div class="rhythm-block">
+          <div class="rhythm-time">Friday</div>
+          <div class="rhythm-task">Document Storage Update to Sales Team Slack</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="card">
+      <h3 style="color:var(--amber);">Weekly Standards (per Seb)</h3>
+      <p style="margin-top:8px;">Every seller must complete <strong>5-6 client meetings per week</strong>, log all deals in HubSpot before the week ends, and follow up on any leads within <strong>5 business days</strong>. Sellers at events must hit <strong>4 meetings per day</strong> on-site.</p>
+      <p style="margin-top:8px;">Seb reviews pipeline every Monday. Stale deals or vague next steps will be flagged. Standard for next steps: specific actions like "send proposal by Thursday" &mdash; not "follow up".</p>
+    </div>
+  </div>
+
+  <!-- ==================== ACTIVE PROJECTS ==================== -->
+  <div class="section" id="projects">
+    <div class="section-title">
+      <div class="icon" style="background:var(--green-bg);">P</div>
+      Active Projects - Step by Step
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card" onclick="switchTab('gifting')" style="cursor:pointer;">
+        <div class="card-accent" style="background:var(--amber);"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3>Sub-Project 1: Client Gifting</h3>
+          <span class="badge badge-amber">In Progress</span>
+        </div>
+        <p><strong>Deadline:</strong> Orders by mid-April 2026</p>
+        <ul class="checklist" style="margin-top:8px;">
+          <li>Get Seb approval on original gifting doc</li>
+          <li>Define gold / silver / bronze client tier labels</li>
+          <li>Finalise Rachel's revised doc (per seller, linked to HubSpot)</li>
+          <li>Select gifts per tier</li>
+          <li>Place orders by mid-April</li>
+          <li>Track delivery and client acknowledgement</li>
+        </ul>
+      </div>
+
+      <div class="card" onclick="switchTab('hubspot')" style="cursor:pointer;">
+        <div class="card-accent" style="background:var(--red);"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3>Sub-Project 2: HubSpot CRM</h3>
+          <span class="badge badge-red">Not Started</span>
+        </div>
+        <p><strong>Duration:</strong> 8 weeks | <strong>Owner:</strong> RevOps Exec (Josh Doherty)</p>
+        <ul class="checklist" style="margin-top:8px;">
+          <li>Confirm RevOps Exec start date</li>
+          <li>Book Week 1 CSM meeting</li>
+          <li>Wk 1: CRM audit, lifecycle stages, mandatory fields, call recording</li>
+          <li>Wk 2-3: ZoomInfo, revenue properties, replace PDF forms, accounting</li>
+          <li>Wk 4: CPQ quotes, digital signatures, quote automations</li>
+          <li>Wk 5-8: Dashboards, sales training, finance alignment, roadmap doc</li>
+        </ul>
+      </div>
+
+      <div class="card" onclick="switchTab('trips')" style="cursor:pointer;">
+        <div class="card-accent" style="background:var(--amber);"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3>Sub-Project 3: Trips & Conferences</h3>
+          <span class="badge badge-amber">Multiple Active</span>
+        </div>
+        <p><strong>Next:</strong> HIP EMEA Thu 3 Apr | Miami hotels ASAP</p>
+        <ul>
+          <li>HIP EMEA &mdash; 3 Apr &mdash; <span style="color:var(--amber);">Confirming guests</span></li>
+          <li>Middle East &mdash; Apr TBC &mdash; <span style="color:var(--blue);">Planning</span></li>
+          <li>POSSIBLE Miami &mdash; 27-29 Apr &mdash; <span style="color:var(--red);">BOOK NOW</span></li>
+          <li>HIP LA &mdash; Spring TBC &mdash; <span style="color:var(--blue);">Info pending</span></li>
+          <li>Cannes Lions &mdash; 22-26 Jun &mdash; <span style="color:var(--amber);">In planning</span></li>
+        </ul>
+      </div>
+
+      <div class="card" onclick="switchTab('outreach')" style="cursor:pointer;">
+        <div class="card-accent" style="background:var(--cyan);"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3>Outreach</h3>
+          <span class="badge badge-blue">Active</span>
+        </div>
+        <p>Complete outreach per seller from master spreadsheet. Track progress and follow-up.</p>
+        <ul class="checklist" style="margin-top:8px;">
+          <li>Review outreach spreadsheet</li>
+          <li>Assign outreach targets per seller</li>
+          <li>Track completion and response rates</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TRIPS & CONFERENCES ==================== -->
+  <div class="section" id="trips">
+    <div class="section-title">
+      <div class="icon" style="background:var(--amber-bg);">T</div>
+      Trips & Conferences 2026
+    </div>
+
+    <div class="sub-tabs">
+      <div class="sub-tab active" onclick="switchTrip('all')">All Trips</div>
+      <div class="sub-tab" onclick="switchTrip('hip-emea')">HIP EMEA</div>
+      <div class="sub-tab" onclick="switchTrip('miami')">POSSIBLE Miami</div>
+      <div class="sub-tab" onclick="switchTrip('cannes')">Cannes Lions</div>
+      <div class="sub-tab" onclick="switchTrip('hip-la')">HIP LA</div>
+      <div class="sub-tab" onclick="switchTrip('middle-east')">Middle East</div>
+    </div>
+
+    <!-- ALL TRIPS -->
+    <div class="sub-section active" id="all">
+      <div class="table-wrap">
+        <table>
+          <tr><th>Event</th><th>Dates</th><th>Location</th><th>Attendees</th><th>Budget</th><th>Status</th></tr>
+          <tr style="cursor:pointer;" onclick="switchTrip('hip-emea')"><td style="font-weight:600;">HIP EMEA</td><td>Thu 3 Apr</td><td>The Arches, London Bridge</td><td>Myles + Alex G + 5-6 guests</td><td>&pound;250/ticket</td><td><span class="badge badge-amber">Confirming</span></td></tr>
+          <tr style="cursor:pointer;" onclick="switchTrip('middle-east')"><td style="font-weight:600;">Middle East</td><td>April TBC</td><td>Middle East (TBC)</td><td>TBC</td><td>TBC</td><td><span class="badge badge-blue">Planning</span></td></tr>
+          <tr style="cursor:pointer;" onclick="switchTrip('miami')"><td style="font-weight:600;color:var(--green);">POSSIBLE Miami</td><td>27-29 Apr</td><td>Fontainebleau, Miami Beach</td><td>Kit, Iyrah, Dustin, Allie, Nina, Myles</td><td>~$13,200</td><td><span class="badge badge-green">Tickets Booked</span></td></tr>
+          <tr style="cursor:pointer;" onclick="switchTrip('hip-la')"><td style="font-weight:600;">HIP LA</td><td>Spring TBC</td><td>Los Angeles, CA</td><td>Myles + US team</td><td>TBC</td><td><span class="badge badge-blue">Info Pending</span></td></tr>
+          <tr style="cursor:pointer;" onclick="switchTrip('cannes')"><td style="font-weight:600;">Cannes Lions</td><td>22-26 Jun</td><td>Cannes, France (fly NCE)</td><td>Kit, Myles, Nina, Dustin, Allie, Alex G, Rachel</td><td>&pound;16.5-20.2K</td><td><span class="badge badge-amber">In Planning</span></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- HIP EMEA -->
+    <div class="sub-section" id="hip-emea">
+      <div class="trip-card" style="border-left:3px solid var(--amber);">
+        <div class="trip-header">
+          <div>
+            <div class="trip-name">HIP EMEA - Silver Pixel Awards</div>
+            <div class="trip-date">Thursday 3 April 2026</div>
+          </div>
+          <span class="badge badge-amber">Confirming Guests</span>
+        </div>
+        <div class="trip-detail">The Arches, London Bridge | &pound;250/ticket | Marilyn The Exhibition</div>
+        <div class="trip-detail">Nominees: Sony UK, Paramount UK, IMDB. Honorees: Chris Massey (Universal), Bethan Fallon (Warner Bros).</div>
+        <div class="trip-detail" style="color:var(--amber);">Check with Paramount - some clients may already be attending as nominees.</div>
+        <div style="margin-top:14px;font-size:12px;font-weight:600;color:var(--text-muted);">GUEST LIST:</div>
+        <div class="table-wrap" style="margin-top:8px;">
+          <table>
+            <tr><th>Guest</th><th>Agency</th><th>Status</th></tr>
+            <tr><td>Jack Brown</td><td>Universal Pictures</td><td><span class="badge badge-blue">TBC</span></td></tr>
+            <tr><td>Luke Morris</td><td>Universal Pictures</td><td><span class="badge badge-blue">TBC</span></td></tr>
+            <tr><td>Tilly Macpherson</td><td>Warner Bros</td><td><span class="badge badge-blue">TBC</span></td></tr>
+            <tr><td>Kim McDonald</td><td>Warner Bros</td><td><span class="badge badge-blue">TBC</span></td></tr>
+            <tr><td>Samantha Cohen</td><td>Sony Pictures</td><td><span class="badge badge-blue">TBC</span></td></tr>
+            <tr><td>Sam Marrow</td><td>Sony Pictures</td><td><span class="badge badge-blue">TBC</span></td></tr>
+          </table>
+        </div>
+        <div style="margin-top:10px;font-size:13px;color:var(--amber);">Budget: 2 Pubity staff &pound;500 + up to 6 agency &pound;1,500 + Travel ~&pound;50</div>
+        <ul class="checklist" style="margin-top:12px;">
+          <li>Confirm agency vs client guest strategy with Myles + Alex G</li>
+          <li>Check Paramount client availability (may attend as nominees)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- POSSIBLE MIAMI -->
+    <div class="sub-section" id="miami">
+      <div class="trip-card" style="border-left:3px solid var(--green);margin-bottom:20px;">
+        <div class="trip-header">
+          <div>
+            <div class="trip-name">POSSIBLE Miami 2026</div>
+            <div class="trip-date">27-29 April 2026 (arrive 26th) | Fontainebleau + Eden Roc, Miami Beach</div>
+          </div>
+          <span class="badge badge-green">TICKETS BOOKED</span>
+        </div>
+        <div class="trip-detail">All tickets booked and invoiced to finance. App launches <strong>13 April</strong> &mdash; connect with attendees there. Contact: Monica (ticketing) + Dutch (conference manager).</div>
+        <div class="trip-detail">Team drinks at <strong>Hakkasan, April 27th</strong> &mdash; all attendees must be there. Horizon HH also at Hakkasan (Kate invited us).</div>
+        <div class="trip-detail" style="color:var(--amber);font-weight:600;">Seb's mandate: 4 pre-booked meetings per seller. No meetings = no attendance. Exceptions only for high-seniority/impact meetings.</div>
+
+        <div style="margin-top:14px;font-size:12px;font-weight:600;color:var(--text-muted);">ATTENDEES & STATUS:</div>
+        <div class="table-wrap" style="margin-top:8px;">
+          <table>
+            <tr><th>Attendee</th><th>Role</th><th>Pass Type</th><th>Flying From</th><th>Hotel</th></tr>
+            <tr><td>Kit Chilvers</td><td>Founder</td><td><span class="badge badge-green">Has Pass</span></td><td>London (LHR)</td><td>TBC</td></tr>
+            <tr><td>Iyrah Williams</td><td>US Team</td><td><span class="badge badge-green">Has Pass</span></td><td>USA</td><td>TBC</td></tr>
+            <tr><td>Dustin Thaler</td><td>VP Sales US</td><td><span class="badge badge-green">Startup</span></td><td>Charlotte (CLT)</td><td>Plymouth South Beach</td></tr>
+            <tr><td>Allie Greenwald</td><td>US Sales</td><td><span class="badge badge-green">Startup</span></td><td>New York (JFK)</td><td>Plymouth South Beach</td></tr>
+            <tr><td>Nina Kammer</td><td>US Sales</td><td><span class="badge badge-green">Startup</span></td><td>Los Angeles (LAX)</td><td>TBC</td></tr>
+            <tr><td>Myles Chilvers</td><td>Sales</td><td><span class="badge badge-green">Rising Talent</span></td><td>London (LHR)</td><td>Hotel Continental</td></tr>
+          </table>
+        </div>
+
+        <div style="margin-top:14px;font-size:12px;font-weight:600;color:var(--text-muted);">HOTEL OPTIONS (budget: $250/night, 4*):</div>
+        <div class="table-wrap" style="margin-top:8px;">
+          <table>
+            <tr><th>Hotel</th><th>Distance</th><th>Notes</th></tr>
+            <tr><td style="color:var(--green);font-weight:600;">Hotel Continental Miami Beach</td><td>5 min walk</td><td>Closest to conference. Myles booked here.</td></tr>
+            <tr><td style="color:var(--green);font-weight:600;">Plymouth South Beach</td><td>10 min drive</td><td>Better rates on Booking.com. Allie + Dustin booked.</td></tr>
+            <tr><td>Liberty Park Hotel</td><td>10 min drive</td><td>Good value option</td></tr>
+            <tr><td>Gabriel Miami (Curio by Hilton)</td><td>20 min drive</td><td>Park Central area</td></tr>
+            <tr><td>Goodtime Hotel</td><td>20 min drive</td><td>Tribute Portfolio</td></tr>
+          </table>
+        </div>
+        <p style="font-size:12px;color:var(--red);margin-top:8px;">Do NOT book Brickell or Sunny Isles &mdash; 30-60 min Uber in traffic.</p>
+
+        <div style="margin-top:16px;font-size:12px;font-weight:600;color:var(--text-muted);">MEETING STATUS:</div>
+        <div class="table-wrap" style="margin-top:8px;">
+          <table>
+            <tr><th>Seller</th><th>Meetings Booked</th><th>Details</th></tr>
+            <tr><td>Myles Chilvers</td><td style="color:var(--green);font-weight:600;">3 meetings</td><td>Leading the way</td></tr>
+            <tr><td>Allie Greenwald</td><td style="color:var(--green);font-weight:600;">1 meeting + 1 event + 3 pending</td><td>Prizepicks (w/ Dustin), Horizon Next (w/ Kit), PMG (w/ Kit + Nina), Horizon HH</td></tr>
+            <tr><td>Nina Kammer</td><td style="color:var(--amber);">Pending</td><td>Update needed</td></tr>
+            <tr><td>Dustin Thaler</td><td style="color:var(--amber);">Pending</td><td>Update needed</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <h3 style="color:var(--cyan);">Key Sales Targets at POSSIBLE</h3>
+        <p style="margin-bottom:12px;font-size:13px;">From Nina's research &mdash; brand-side CMOs/VPs chasing Gen Z audience:</p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Target</th><th>Title</th><th>Company</th><th>Owner</th></tr>
+            <tr><td style="font-weight:600;">Laurie Lam</td><td>CMO</td><td>e.l.f. Beauty</td><td>Priority</td></tr>
+            <tr><td style="font-weight:600;">Terence Reilly</td><td>CMO</td><td>Crocs</td><td>Priority</td></tr>
+            <tr><td style="font-weight:600;">Nicole Parlapiano</td><td>CMO</td><td>Tubi</td><td>&mdash;</td></tr>
+            <tr><td style="font-weight:600;">Beau Avril</td><td>President</td><td>MrBeast</td><td>&mdash;</td></tr>
+            <tr><td style="font-weight:600;">Sarah Bishop</td><td>VP Marketing</td><td>NFL</td><td>&mdash;</td></tr>
+            <tr><td style="font-weight:600;">Esi Eggleston Bracey</td><td>CEO Personal Care</td><td>Unilever</td><td>Portfolio unlock</td></tr>
+          </table>
+        </div>
+        <p style="margin-top:8px;font-size:12px;color:var(--amber);">Go to the Creator Economy Academy &mdash; every brand marketer there is solving the problem Pubity solves.</p>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <h3 style="color:var(--purple);">Side Events at POSSIBLE</h3>
+        <div class="grid grid-2" style="margin-top:12px;">
+          <div>
+            <p style="font-size:13px;margin-bottom:8px;"><strong>Female Quotient Equality Lounge</strong></p>
+            <p style="font-size:12px;color:var(--text-muted);">Set up at POSSIBLE. <a href="https://thefemalequotient.equalitylounge.com/possible25" target="_blank" style="color:var(--blue);">RSVP here</a></p>
+            <p style="font-size:12px;color:var(--text-muted);margin-top:4px;">Allie identified FQ speaker targets: Heather Freeland (Adobe), Jaclyn Osterloh (Coca-Cola), Julia Goldin (LEGO), Vinny Rinaldi (Hershey), Shenan Reed (GM), and more.</p>
+          </div>
+          <div>
+            <p style="font-size:13px;margin-bottom:8px;"><strong>Horizon HH at Hakkasan</strong></p>
+            <p style="font-size:12px;color:var(--text-muted);">April 27th. Kate (Horizon) invited us. Allie getting as many of us in as possible.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <h3 style="color:var(--blue);">Conference Links</h3>
+        <div class="grid grid-3" style="margin-top:12px;">
+          <a href="https://possibleevent.com/2026-speakers/" target="_blank" class="doc-link">
+            <div class="doc-icon" style="background:var(--blue-bg);color:var(--blue);">S</div>
+            <div class="doc-info"><div class="doc-name">All Speakers</div><div class="doc-desc">Full speaker list</div></div>
+          </a>
+          <a href="https://possibleevent.com/2026-partners/" target="_blank" class="doc-link">
+            <div class="doc-icon" style="background:var(--green-bg);color:var(--green);">P</div>
+            <div class="doc-info"><div class="doc-name">2026 Partners</div><div class="doc-desc">Partner companies</div></div>
+          </a>
+          <a href="https://possibleevent.com/2026-agenda/" target="_blank" class="doc-link">
+            <div class="doc-icon" style="background:var(--amber-bg);color:var(--amber);">A</div>
+            <div class="doc-info"><div class="doc-name">2026 Agenda</div><div class="doc-desc">Full schedule</div></div>
+          </a>
+          <a href="https://possible2026.expofp.com/" target="_blank" class="doc-link">
+            <div class="doc-icon" style="background:var(--cyan-bg);color:var(--cyan);">M</div>
+            <div class="doc-info"><div class="doc-name">Interactive Floor Map</div><div class="doc-desc">Venue layout</div></div>
+          </a>
+          <a href="https://possibleevent.com/venue/" target="_blank" class="doc-link">
+            <div class="doc-icon" style="background:var(--purple-bg);color:var(--purple);">V</div>
+            <div class="doc-info"><div class="doc-name">Attendee Hub</div><div class="doc-desc">Venue info</div></div>
+          </a>
+          <a href="https://possibleevent.com/2026-hosted-meetings-program-guidelines-sponsors/" target="_blank" class="doc-link">
+            <div class="doc-icon" style="background:var(--red-bg);color:var(--red);">H</div>
+            <div class="doc-info"><div class="doc-name">Hosted Meetings</div><div class="doc-desc">8x15 min sessions</div></div>
+          </a>
+        </div>
+      </div>
+
+      <ul class="checklist" style="margin-bottom:20px;">
+        <li class="done">Book tickets for all attendees</li>
+        <li class="done">Create #possible-miami Slack channel</li>
+        <li class="done">Share meeting doc with team</li>
+        <li class="done">Share floor map and venue info</li>
+        <li>All sellers: hit 4 pre-booked meetings by 17 April</li>
+        <li>App launches 13 April &mdash; connect with attendees</li>
+        <li>Confirm all hotel bookings (Nina still TBC)</li>
+        <li>Meeting location strategy: use The Lawns (least trafficked) + restaurants for priority partners</li>
+        <li>Dustin to print + laminate one-sheets for meetings</li>
+      </ul>
+
+      <div class="sheet-label"><span>POSSIBLE Miami - Meeting Schedule</span><span class="live-badge">LIVE</span></div>
+      <div class="sheet-embed">
+        <iframe src="https://docs.google.com/spreadsheets/d/1H-HJ-0UaDPTu18HAfkMauRpEdD2DztssNd-6yKZuk6o/edit?gid=168383342#gid=168383342&widget=true&headers=false" loading="lazy"></iframe>
+      </div>
+      <div class="sheet-label" style="margin-top:20px;"><span>POSSIBLE Miami - Trip Planner</span><span class="live-badge">LIVE</span></div>
+      <div class="sheet-embed">
+        <iframe src="https://docs.google.com/spreadsheets/d/1bee7oqcGQK9Sr8CH1Y9QbGAI57guEC1m/edit?gid=1243846351#gid=1243846351&widget=true&headers=false" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <!-- CANNES LIONS -->
+    <div class="sub-section" id="cannes">
+      <div class="trip-card" style="border-left:3px solid var(--amber);margin-bottom:20px;">
+        <div class="trip-header">
+          <div>
+            <div class="trip-name">Cannes Lions 2026</div>
+            <div class="trip-date">22-26 June 2026 (arrive 21st) | Fly into Nice (NCE) - 30 min transfer</div>
+          </div>
+          <span class="badge badge-amber">In Planning</span>
+        </div>
+        <div class="trip-detail"><strong>Americans:</strong> Mon 22 - Thu 25 Jun. <strong>UK team:</strong> Tue 23 - Thu 25 Jun.</div>
+        <div class="trip-detail">Budget: no hard limit - estimate &pound;16,500-&pound;20,200. Flights booked by Rachel on behalf of attendees.</div>
+        <div class="trip-detail" style="color:var(--amber);">Allie + Nina requested Fri 26 for Greg Johns (EVP Canvas) annual dinner (~30 people). Allie got Hyundai from this event previously. Confirm with Seb.</div>
+
+        <div class="grid grid-2" style="margin-top:16px;">
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;">ATTENDEES:</div>
+            <div class="table-wrap">
+              <table>
+                <tr><th>Attendee</th><th>Role</th><th>From</th><th>Arrive</th><th>Depart</th></tr>
+                <tr><td>Kit Chilvers</td><td>Founder</td><td>LHR</td><td>Tue 23</td><td>Thu 25</td></tr>
+                <tr><td>Myles Chilvers</td><td>Sales</td><td>LHR</td><td>Tue 23</td><td>Thu 25</td></tr>
+                <tr><td>Nina Kammer</td><td>US Sales</td><td>LAX</td><td>Mon 22</td><td>Fri 26*</td></tr>
+                <tr><td>Dustin Thaler</td><td>VP Sales US</td><td>CLT</td><td>Mon 22</td><td>Thu 25</td></tr>
+                <tr><td>Allie Greenwald</td><td>US Sales</td><td>JFK</td><td>Mon 22</td><td>Fri 26*</td></tr>
+                <tr><td>Alex Giacon</td><td>Commercial</td><td>TBC</td><td>TBC</td><td>TBC</td></tr>
+                <tr><td>Rachel Barnett</td><td>Sales Ops</td><td>LHR</td><td>TBC</td><td>TBC</td></tr>
+              </table>
+            </div>
+            <p style="font-size:11px;color:var(--text-muted);margin-top:4px;">* Staying Fri 26 for Greg Johns dinner - confirm with Seb</p>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;">ACCOMMODATION:</div>
+            <div class="table-wrap">
+              <table>
+                <tr><th>Option</th><th>Type</th><th>Per Night</th></tr>
+                <tr><td>Private Villa</td><td>Villa</td><td>&pound;800-1,200</td></tr>
+                <tr><td>Hotel Majestic Barriere</td><td>5-star</td><td>~&pound;600</td></tr>
+                <tr><td>JW Marriott Cannes</td><td>5-star</td><td>~&pound;500</td></tr>
+                <tr><td>Grand Hotel Cannes</td><td>4-star</td><td>~&pound;320</td></tr>
+                <tr><td>Hotel Splendid</td><td>4-star</td><td>~&pound;280</td></tr>
+              </table>
+            </div>
+            <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-top:12px;margin-bottom:8px;">FLIGHT OPTIONS (US TEAM):</div>
+            <div class="table-wrap">
+              <table>
+                <tr><th>Airline</th><th>Route</th><th>Notes</th></tr>
+                <tr><td>La Compagnie</td><td>EWR - NCE</td><td>Direct business class</td></tr>
+                <tr><td>Air France</td><td>JFK - NCE</td><td>Direct / 1-stop</td></tr>
+                <tr><td>American Airlines</td><td>JFK - NCE</td><td>Via Paris CDG</td></tr>
+                <tr><td>British Airways</td><td>LHR - NCE</td><td>Direct - UK team</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;font-size:12px;font-weight:600;color:var(--text-muted);">CRITERIA TO ATTEND (per Seb):</div>
+        <ul style="margin-top:6px;">
+          <li>Pre-booked 40% of Q3 revenue target by 1 June</li>
+          <li>Achieved at least 80% of Q1 and Q2 targets</li>
+          <li>Booked at least 5 client meetings at Cannes (no double counting)</li>
+          <li>Proven ability to get team into events / drinks / dinners</li>
+          <li>Consistent 5-6 meetings per week cadence</li>
+        </ul>
+
+        <div style="margin-top:16px;font-size:12px;font-weight:600;color:var(--text-muted);">OUTSTANDING ACTIONS:</div>
+        <ul class="checklist" style="margin-top:8px;">
+          <li>Collect airline / frequent flyer / time preference from US attendees</li>
+          <li>Book Airbnb - within 10 mins beachfront, ASAP</li>
+          <li>Confirm Allie + Nina staying Fri 26 with Seb</li>
+          <li>Confirm Alex Giacon attending and dates</li>
+          <li>Confirm Seb attending (baby due around June)</li>
+          <li>All sellers to log planned meetings in Google Sheet</li>
+          <li>Share Google Sheet link in #cannes-trip-2026 as bookmark</li>
+          <li>Get everyone to block calendar dates</li>
+          <li class="done">Register for Festival passes</li>
+          <li class="done">Create trip Slack channel (#cannes-trip-2026)</li>
+          <li class="done">Confirm who is attending (names + roles)</li>
+          <li class="done">Set budget per person</li>
+          <li class="done">Book flights</li>
+        </ul>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;margin-top:20px;">
+        <h3 style="color:var(--purple);">Cannes Side Events & Networking</h3>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Key side events to get into. If you have senior friends at partner companies, they may help pull us into events when announced.</p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Event</th><th>Status</th><th>Action</th></tr>
+            <tr>
+              <td style="font-weight:600;"><a href="https://brand-innovators.com/events/marketing-leadership-summit-cannes-2026/" target="_blank" style="color:var(--blue);">Brand Innovators</a></td>
+              <td><span class="badge badge-amber">Keep Checking</span></td>
+              <td>Keep checking back as they add speakers. Rachel can get a few of us into some events.</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Female Quotient</td>
+              <td><span class="badge badge-blue">RSVP Open</span></td>
+              <td>Speakers not listed yet. RSVP to get updates on events.</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Stagwell Sport Beach</td>
+              <td><span class="badge badge-blue">2026 Not Live</span></td>
+              <td>Keep checking back for 2026 details.</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Meta Beach</td>
+              <td><span class="badge badge-amber">Connects Needed</span></td>
+              <td>Hopeful Kit has connects. Some events reserved for badge holders, but normally have a few you can get wristbands for.</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">Influential Villa</td>
+              <td><span class="badge badge-green">In Works</span></td>
+              <td>Many of us know them. Conversations already in the works.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="sheet-label"><span>Cannes Lions - Client Meeting Schedule (who's meeting who)</span><span class="live-badge">LIVE</span></div>
+      <div class="sheet-embed">
+        <iframe src="https://docs.google.com/spreadsheets/d/1sg2NJLgnWy-OJQEKPitiLDIE3UXGf5kbF0ciDXPKZgY/edit?gid=281793099#gid=281793099&widget=true&headers=false" loading="lazy"></iframe>
+      </div>
+      <div class="sheet-label" style="margin-top:20px;"><span>Cannes - Additional Meeting Data</span><span class="live-badge">LIVE</span></div>
+      <div class="sheet-embed">
+        <iframe src="https://docs.google.com/spreadsheets/d/1sg2NJLgnWy-OJQEKPitiLDIE3UXGf5kbF0ciDXPKZgY/edit?gid=1549725623#gid=1549725623&widget=true&headers=false" loading="lazy"></iframe>
+      </div>
+      <div class="sheet-label" style="margin-top:20px;"><span>Cannes Trip Planner</span><span class="live-badge">LIVE</span></div>
+      <div class="sheet-embed">
+        <iframe src="https://docs.google.com/spreadsheets/d/15xGH_v0jmY6URZcWh8xa10eQ3dvSBMgyp-9mEZa9Tjg/edit?gid=796935500#gid=796935500&widget=true&headers=false" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <!-- HIP LA -->
+    <div class="sub-section" id="hip-la">
+      <div class="trip-card" style="border-left:3px solid var(--blue);">
+        <div class="trip-header">
+          <div>
+            <div class="trip-name">HIP LA - Hollywood in Pixels</div>
+            <div class="trip-date">Spring 2026 (TBC)</div>
+          </div>
+          <span class="badge badge-blue">Info Pending</span>
+        </div>
+        <div class="trip-detail">Marquee annual edition. Myles attending + potential US team. Nina is LA-based. Allie may have contacts.</div>
+        <div class="trip-detail"><strong>Contact:</strong> Bettina Sherick for dates and tickets.</div>
+        <ul class="checklist" style="margin-top:12px;">
+          <li>Contact Bettina Sherick for dates and tickets</li>
+          <li>Confirm US team attendance (Nina, Allie)</li>
+          <li>Get ticket pricing</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- MIDDLE EAST -->
+    <div class="sub-section" id="middle-east">
+      <div class="trip-card" style="border-left:3px solid var(--blue);">
+        <div class="trip-header">
+          <div>
+            <div class="trip-name">Middle East Sales Trip</div>
+            <div class="trip-date">April 2026 (TBC)</div>
+          </div>
+          <span class="badge badge-blue">Planning</span>
+        </div>
+        <div class="trip-detail">Full itinerary in <a href="https://pubitypgl.sharepoint.com/:x:/r/sites/Pubity/_layouts/15/Doc.aspx?sourcedoc=%7B59573B80-22C5-4244-A51E-F516A41A9152%7D&file=Trip%20Calendar%20Template%20-%20Copy.xlsx" target="_blank" style="color:var(--blue);">SharePoint Planner</a>.</div>
+        <ul class="checklist" style="margin-top:12px;">
+          <li>Confirm dates and attendees</li>
+          <li>Review SharePoint itinerary</li>
+          <li>Book accommodation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== EVENTS ==================== -->
+  <div class="section" id="events">
+    <div class="section-title">
+      <div class="icon" style="background:var(--amber-bg);">E</div>
+      Upcoming Events
+    </div>
+
+    <div class="event-card" style="border-left:3px solid var(--red);">
+      <h3>POSSIBLE Miami 2026</h3>
+      <div class="event-date">April 27-29, 2026 &mdash; Fontainebleau Hotel & Eden Roc, Miami Beach</div>
+      <div class="grid grid-2" style="margin-top:12px;">
+        <div>
+          <p style="font-size:13px;"><strong>Attending:</strong> Myles, Kit, Iyrah, Dustin, Allie, Nina</p>
+          <p style="font-size:13px;margin-top:6px;"><strong>Hotel budget:</strong> $250/night</p>
+          <p style="font-size:13px;margin-top:6px;"><strong>Team drinks:</strong> Hakkasan, April 27th &mdash; all must attend</p>
+          <p style="font-size:13px;margin-top:6px;"><strong>Meeting target:</strong> Minimum 4 meetings per day</p>
+        </div>
+        <div>
+          <p style="font-size:13px;font-weight:600;color:var(--amber);">Requirements:</p>
+          <ul style="font-size:13px;margin-top:4px;">
+            <li>Pre-book meetings via conference app ASAP</li>
+            <li>All meetings logged in HubSpot within 24 hours</li>
+            <li>Stay South Beach ONLY &mdash; Brickell is 1hr+ Uber</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="event-card" style="border-left:3px solid var(--amber);">
+      <h3>Cannes Lions 2026</h3>
+      <div class="event-date">June 22-26, 2026 &mdash; Cannes, France</div>
+      <div class="grid grid-2" style="margin-top:12px;">
+        <div>
+          <p style="font-size:13px;"><strong>Attending:</strong> 6 people (3 US + 3 UK). Two Airbnbs booked.</p>
+          <p style="font-size:13px;margin-top:6px;"><strong>Criteria deadline:</strong> June 1st (FIRM)</p>
+        </div>
+        <div>
+          <p style="font-size:13px;font-weight:600;color:var(--amber);">Attendance Criteria (must hit ALL THREE):</p>
+          <ul style="font-size:13px;margin-top:4px;">
+            <li>40% of Q3 target by June 1st</li>
+            <li>Minimum 5 Cannes meetings pre-booked</li>
+            <li>80% of both Q1 and Q2 targets achieved</li>
+          </ul>
+        </div>
+      </div>
+      <div class="sheet-label" style="margin-top:16px;"><span>Cannes Meetings - Who's Booked What</span><span class="live-badge">LIVE</span></div>
+      <div class="sheet-embed">
+        <iframe src="https://docs.google.com/spreadsheets/d/1sg2NJLgnWy-OJQEKPitiLDIE3UXGf5kbF0ciDXPKZgY/edit?gid=281793099#gid=281793099&widget=true&headers=false" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <div class="event-card" style="border-left:3px solid var(--amber);">
+      <h3>HIP EMEA - Silver Pixel Awards</h3>
+      <div class="event-date">Thursday 3 April 2026 &mdash; The Arches, London Bridge</div>
+      <p style="font-size:13px;">&pound;250/ticket. Myles + Alex G + 5-6 guests. Nominees: Sony UK, Paramount UK, IMDB.</p>
+    </div>
+  </div>
+
+  <!-- ==================== HUBSPOT CRM ==================== -->
+  <div class="section" id="hubspot">
+    <div class="section-title">
+      <div class="icon" style="background:var(--red-bg);">H</div>
+      HubSpot CRM Improvement Plan
+    </div>
+
+    <div class="card" style="margin-bottom:24px;">
+      <p><strong>23 tasks</strong> across <strong>4 phases</strong> over <strong>8 weeks</strong>. Owner: RevOps Exec (Josh Doherty). Rachel owns sign-off and progress reviews.</p>
+      <div style="margin-top:12px;">
+        <span class="badge badge-red" style="margin-right:8px;">Blocker: RevOps Exec start date</span>
+        <span class="badge badge-amber" style="margin-right:8px;">Blocker: Week 1 CSM meeting</span>
+        <span class="badge badge-amber">Blocker: Accounting platform (before Wk 3)</span>
+      </div>
+    </div>
+
+    <div class="phases">
+      <div class="phase-item" style="background:var(--red-bg);border-radius:10px 0 0 10px;">
+        <div class="phase-num" style="color:var(--red);">Phase 1</div>
+        <div class="phase-name">Foundation</div>
+        <div class="phase-weeks">Week 1</div>
+        <div class="phase-focus">CRM audit, lifecycle stage rename, mandatory fields, call recording, Sales Extension</div>
+      </div>
+      <div class="phase-item" style="background:var(--amber-bg);">
+        <div class="phase-num" style="color:var(--amber);">Phase 2</div>
+        <div class="phase-name">Integrations</div>
+        <div class="phase-weeks">Weeks 2-3</div>
+        <div class="phase-focus">ZoomInfo, Q1-Q4 revenue properties, replace PDF forms, accounting integration</div>
+      </div>
+      <div class="phase-item" style="background:var(--purple-bg);">
+        <div class="phase-num" style="color:var(--purple);">Phase 3</div>
+        <div class="phase-name">Commerce Hub</div>
+        <div class="phase-weeks">Week 4</div>
+        <div class="phase-focus">CPQ quotes, digital signatures, quote tracking automations</div>
+      </div>
+      <div class="phase-item" style="background:var(--green-bg);border-radius:0 10px 10px 0;">
+        <div class="phase-num" style="color:var(--green);">Phase 4</div>
+        <div class="phase-name">Reporting & Training</div>
+        <div class="phase-weeks">Weeks 5-8</div>
+        <div class="phase-focus">Dashboards, sales training, finance & CS alignment, full roadmap doc</div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <a href="https://pubitygroup.slack.com/docs/T020METK554/F0ANJEDBE0M" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--red-bg);color:var(--red);">S</div>
+        <div class="doc-info">
+          <div class="doc-name">Full HubSpot CRM Plan - Slack Canvas</div>
+          <div class="doc-desc">All 23 tasks, day-by-day plan, weekly goals</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ==================== GIFTING ==================== -->
+  <div class="section" id="gifting">
+    <div class="section-title">
+      <div class="icon" style="background:var(--amber-bg);">G</div>
+      Client Gifting - Q1 2026
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <p>Gifting cycle runs mid-last-month of each quarter. Organisation starts 15th, takes two weeks. Orders by <strong>early-to-mid April</strong>. <strong>Seb approval required</strong>.</p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3 style="color:var(--amber);">Step-by-Step Plan</h3>
+        <ul class="checklist" style="margin-top:12px;">
+          <li>Get Seb approval on original gifting doc</li>
+          <li>Define gold / silver / bronze client tier labels</li>
+          <li>Finalise Rachel's revised doc (per seller, linked to HubSpot)</li>
+          <li>Select gifts per tier</li>
+          <li>Place orders by mid-April</li>
+          <li>Track delivery and client acknowledgement</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--amber);">Key Documents</h3>
+        <div style="margin-top:12px;">
+          <a href="https://pubitypgl-my.sharepoint.com/:x:/g/personal/myles_pubitygroup_com/IQCkstHWTR4TQI1Jfc6o4GFRAeQtbLprnI_d4EYlP37n6FY?e=JQttIA" target="_blank" class="doc-link" style="margin-bottom:10px;">
+            <div class="doc-icon" style="background:var(--amber-bg);color:var(--amber);">X</div>
+            <div class="doc-info">
+              <div class="doc-name">Original Gifting Doc</div>
+              <div class="doc-desc">End of quarter spenders - Seb to approve</div>
+            </div>
+          </a>
+          <a href="https://pubitypgl-my.sharepoint.com/:x:/r/personal/rachel_barnett_pubitygroup_com/_layouts/15/Doc.aspx?sourcedoc=%7BD11C902C-8E27-46E1-AF6A-3DF680AB8CE2%7D&file=Pubity_Client_Gifting_Tracker_Q1_2026.xlsx&action=default&mobileredirect=true" target="_blank" class="doc-link">
+            <div class="doc-icon" style="background:var(--green-bg);color:var(--green);">X</div>
+            <div class="doc-info">
+              <div class="doc-name">Rachel's Revised Gifting Doc</div>
+              <div class="doc-desc">Split per seller, linked to HubSpot - Active</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== STRATEGIC ACCOUNTS ==================== -->
+  <div class="section" id="strategic">
+    <div class="section-title">
+      <div class="icon" style="background:var(--cyan-bg);">S</div>
+      Strategic Accounts Dashboard
+    </div>
+    <p style="color:var(--text-muted);margin-bottom:16px;font-size:14px;">Live strategic accounts dashboard. <a href="https://pubity-strategic-accounts.vercel.app/" target="_blank" style="color:var(--blue);">Open in new tab</a></p>
+    <div class="dashboard-embed">
+      <iframe src="https://pubity-strategic-accounts.vercel.app/" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <!-- ==================== RESOURCES ==================== -->
+  <div class="section" id="resources">
+    <div class="section-title">
+      <div class="icon" style="background:var(--purple-bg);">R</div>
+      Resources & Key Documents
+    </div>
+
+    <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:12px;">ROLE & OPERATIONS</div>
+    <div class="grid grid-2" style="margin-bottom:24px;">
+      <a href="https://pubitypgl-my.sharepoint.com/:w:/r/personal/rachel_barnett_pubitygroup_com/_layouts/15/Doc.aspx?sourcedoc=%7BF5062CD4-90A9-4172-B09F-7AB96A236297%7D&file=SAM_Role_Plan_Live.docx&action=default&mobileredirect=true" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--blue-bg);color:var(--blue);">W</div>
+        <div class="doc-info">
+          <div class="doc-name">SAM Role Plan (Live)</div>
+          <div class="doc-desc">Role overview, project plan, time allocation & daily tasks</div>
+        </div>
+      </a>
+      <a href="https://docs.google.com/spreadsheets/d/15un1kJ-utDAIVzV_0SnVbV4N4pJGJ8u-UxRKXDgF3aA/edit?gid=0#gid=0" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--green-bg);color:var(--green);">S</div>
+        <div class="doc-info">
+          <div class="doc-name">AM Roles & Responsibilities</div>
+          <div class="doc-desc">Phase-by-phase responsibilities with ownership details</div>
+        </div>
+      </a>
+    </div>
+
+    <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:12px;">PROJECTS</div>
+    <div class="grid grid-2" style="margin-bottom:24px;">
+      <a href="https://pubitygroup.slack.com/docs/T020METK554/F0ANJEDBE0M" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--red-bg);color:var(--red);">H</div>
+        <div class="doc-info">
+          <div class="doc-name">HubSpot CRM Full Plan</div>
+          <div class="doc-desc">All 23 tasks, day-by-day plan, weekly goals</div>
+        </div>
+      </a>
+      <a href="https://pubitypgl-my.sharepoint.com/:x:/g/personal/myles_pubitygroup_com/IQCkstHWTR4TQI1Jfc6o4GFRAeQtbLprnI_d4EYlP37n6FY?e=JQttIA" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--amber-bg);color:var(--amber);">X</div>
+        <div class="doc-info">
+          <div class="doc-name">Client Gifting Doc (Original)</div>
+          <div class="doc-desc">End of quarter spenders - awaiting Seb approval</div>
+        </div>
+      </a>
+      <a href="https://pubitypgl-my.sharepoint.com/:x:/r/personal/rachel_barnett_pubitygroup_com/_layouts/15/Doc.aspx?sourcedoc=%7BD11C902C-8E27-46E1-AF6A-3DF680AB8CE2%7D&file=Pubity_Client_Gifting_Tracker_Q1_2026.xlsx&action=default&mobileredirect=true" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--green-bg);color:var(--green);">X</div>
+        <div class="doc-info">
+          <div class="doc-name">Gifting Tracker (Rachel's Revised)</div>
+          <div class="doc-desc">Split per seller, linked to HubSpot</div>
+        </div>
+      </a>
+      <a href="https://pubitygroup.slack.com/docs/T020METK554/F0AH0LRTJRE" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--purple-bg);color:var(--purple);">S</div>
+        <div class="doc-info">
+          <div class="doc-name">Master Slack Canvas (Rachel TODO)</div>
+          <div class="doc-desc">Rachel TO DO + Wider Projects Visibility</div>
+        </div>
+      </a>
+      <a href="https://pubitygroup.slack.com/docs/T020METK554/F0APKS3N68Z" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--green-bg);color:var(--green);">S</div>
+        <div class="doc-info">
+          <div class="doc-name">Sales Team Organisation Hub Canvas</div>
+          <div class="doc-desc">Pipeline data, seller deals, weekly requirements, events</div>
+        </div>
+      </a>
+    </div>
+
+    <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:12px;">TRIPS & TRAVEL</div>
+    <div class="grid grid-2" style="margin-bottom:24px;">
+      <a href="https://docs.google.com/spreadsheets/d/15xGH_v0jmY6URZcWh8xa10eQ3dvSBMgyp-9mEZa9Tjg" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--amber-bg);color:var(--amber);">S</div>
+        <div class="doc-info">
+          <div class="doc-name">Cannes Trip Planner 2026</div>
+          <div class="doc-desc">Logistics, travel, accommodation, criteria tracker</div>
+        </div>
+      </a>
+      <a href="https://docs.google.com/spreadsheets/d/1sg2NJLgnWy-OJQEKPitiLDIE3UXGf5kbF0ciDXPKZgY" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--cyan-bg);color:var(--cyan);">S</div>
+        <div class="doc-info">
+          <div class="doc-name">Cannes Client Meeting Schedule</div>
+          <div class="doc-desc">All pre-booked Cannes client meetings</div>
+        </div>
+      </a>
+      <a href="https://docs.google.com/spreadsheets/d/1bee7oqcGQK9Sr8CH1Y9QbGAI57guEC1m" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--amber-bg);color:var(--amber);">S</div>
+        <div class="doc-info">
+          <div class="doc-name">POSSIBLE Miami Trip Planner</div>
+          <div class="doc-desc">Hotel, flights, meeting tracker, event schedule</div>
+        </div>
+      </a>
+      <a href="https://docs.google.com/spreadsheets/d/1H-HJ-0UaDPTu18HAfkMauRpEdD2DztssNd-6yKZuk6o" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--cyan-bg);color:var(--cyan);">S</div>
+        <div class="doc-info">
+          <div class="doc-name">POSSIBLE Miami Meeting Doc</div>
+          <div class="doc-desc">All pre-booked POSSIBLE Miami client meetings</div>
+        </div>
+      </a>
+      <a href="https://pubitypgl.sharepoint.com/:x:/r/sites/Pubity/_layouts/15/Doc.aspx?sourcedoc=%7B59573B80-22C5-4244-A51E-F516A41A9152%7D&file=Trip%20Calendar%20Template%20-%20Copy.xlsx" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--blue-bg);color:var(--blue);">X</div>
+        <div class="doc-info">
+          <div class="doc-name">SharePoint Planner (Middle East)</div>
+          <div class="doc-desc">Full itinerary for Middle East trip</div>
+        </div>
+      </a>
+      <a href="https://pubitygroup.slack.com/archives/C0AMFUP5UAY" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--purple-bg);color:var(--purple);">S</div>
+        <div class="doc-info">
+          <div class="doc-name">#cannes-trip-2026</div>
+          <div class="doc-desc">Slack channel for Cannes coordination</div>
+        </div>
+      </a>
+    </div>
+
+    <div style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:12px;">TOOLS & PLATFORMS</div>
+    <div class="grid grid-3">
+      <a href="https://app.hubspot.com/contacts/143333975/deals" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--red-bg);color:var(--red);">H</div>
+        <div class="doc-info"><div class="doc-name">HubSpot CRM</div><div class="doc-desc">Single source of truth for all deals</div></div>
+      </a>
+      <a href="https://pubity-strategic-accounts.vercel.app/" target="_blank" class="doc-link">
+        <div class="doc-icon" style="background:var(--cyan-bg);color:var(--cyan);">D</div>
+        <div class="doc-info"><div class="doc-name">Strategic Accounts Dashboard</div><div class="doc-desc">Live strategic accounts overview</div></div>
+      </a>
+      <div class="doc-link">
+        <div class="doc-icon" style="background:var(--amber-bg);color:var(--amber);">M</div>
+        <div class="doc-info"><div class="doc-name">Monday.com</div><div class="doc-desc">Campaign board, IOs, billing</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== OUTREACH ==================== -->
+  <div class="section" id="outreach">
+    <div class="section-title">
+      <div class="icon" style="background:var(--cyan-bg);">O</div>
+      Outreach Tracker
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3>Outreach Task</h3>
+        <span class="badge badge-red">Action Required</span>
+      </div>
+      <p>Complete outreach from the master spreadsheet. Review targets, assign per seller, track completion.</p>
+      <ul class="checklist" style="margin-top:12px;">
+        <li>Review outreach spreadsheet below</li>
+        <li>Assign outreach targets per seller</li>
+        <li>Send initial outreach messages</li>
+        <li>Follow up on non-responses within 5 business days</li>
+        <li>Log all outreach activity in HubSpot</li>
+      </ul>
+    </div>
+
+    <div class="sheet-label"><span>Outreach Master Spreadsheet</span><span class="live-badge">LIVE</span></div>
+    <div class="sheet-embed">
+      <iframe src="https://docs.google.com/spreadsheets/d/1zfrUAMW-53XbHPRf4G4duKj_ysAxhHeG/edit?widget=true&headers=false" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <!-- ==================== MISSING DATA HUB ==================== -->
+  <div class="section" id="missing-data">
+    <div class="section-title">
+      <div class="icon" style="background:var(--red-bg);">!</div>
+      Missing Data Hub
+    </div>
+    <p style="color:var(--text-muted);margin-bottom:20px;font-size:14px;">HubSpot missing data by seller. Bar chart shows who has the most data to fill out. Full spreadsheet embedded below.</p>
+
+    <div class="card" style="margin-bottom:24px;">
+      <h3 style="margin-bottom:16px;">Missing Data Overview by Seller</h3>
+      <div id="missing-data-chart" style="display:flex;flex-direction:column;gap:12px;">
+        <p style="font-size:13px;color:var(--text-muted);">Loading from spreadsheet data &mdash; see embedded sheet below for full details.</p>
+      </div>
+    </div>
+
+    <div class="sheet-label"><span>HubSpot Missing Data Tracker</span><span class="live-badge">LIVE</span></div>
+    <div class="sheet-embed" style="margin-bottom:20px;">
+      <iframe src="https://docs.google.com/spreadsheets/d/1PRQ7yyVlVnMV71lje2_JuiX23bTLHF81PsWWc7KQc_0/edit?gid=970233488#gid=970233488&widget=true&headers=false" loading="lazy"></iframe>
+    </div>
+
+    <div class="card">
+      <h3 style="color:var(--amber);">Action Items</h3>
+      <ul class="checklist" style="margin-top:12px;">
+        <li>Review missing data spreadsheet per seller</li>
+        <li>Flag sellers with highest missing data count</li>
+        <li>Include in Friday seller calls &mdash; chase completion</li>
+        <li>Set deadline for all missing data to be filled</li>
+        <li>Cross-reference with HubSpot deal quality standards</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ==================== AM ROLES ==================== -->
+  <div class="section" id="am-roles">
+    <div class="section-title">
+      <div class="icon" style="background:var(--cyan-bg);">A</div>
+      AM Roles & Responsibilities
+    </div>
+    <p style="color:var(--text-muted);margin-bottom:20px;font-size:14px;">From the <a href="https://docs.google.com/spreadsheets/d/15un1kJ-utDAIVzV_0SnVbV4N4pJGJ8u-UxRKXDgF3aA/edit?gid=0#gid=0" target="_blank" style="color:var(--blue);">AM Roles + Responsibilities spreadsheet</a>.</p>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>Phase</th><th>Responsibility</th><th>Role</th><th>Ownership / Notes</th><th>Action / Improvements</th></tr>
+        <tr>
+          <td><span class="badge badge-blue">Pre-Sale</span></td>
+          <td>Agency / Client Templates - First Pass Review</td>
+          <td>Collecting info to share back to seller</td>
+          <td>Sales AM completes first review before sharing internally</td>
+          <td>Rachel: Create template to ensure all info captured. Call with Dustin on Thursday.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">Pre-Sale</span></td>
+          <td>Content Calendar Availability Check</td>
+          <td>Collecting info to share back to seller</td>
+          <td>Confirm availability before deal closes</td>
+          <td>See how this process goes - maybe AI automation that can pull data?</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-purple">Pre to Post-Sale</span></td>
+          <td>Slack Channel Bookmarks Updated</td>
+          <td>Accountable</td>
+          <td>Ensure media plan, deck, IO, HubSpot link are pinned</td>
+          <td>Investigating pin automation - Rhea call organised</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-purple">Pre to Post-Sale</span></td>
+          <td>Non-Cancellable Cost Confirmation Email</td>
+          <td>Sales ICS sends; Rachel monitors</td>
+          <td>Draft and send confirmation to client</td>
+          <td>Flagged on sellers chat. Needs to be saved on SharePoint.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-amber">Contracting</span></td>
+          <td>IO Chasing & Collection</td>
+          <td>Accountable</td>
+          <td>Secure signed IO, upload to folder + Slack + shared with Prax</td>
+          <td>Table set up with Prax and Slack - updated daily.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">Post-Sale</span></td>
+          <td>Client Relationship Continuity</td>
+          <td>&mdash;</td>
+          <td>Maintain strong client relationships end-to-end</td>
+          <td>Automation being set up by Josh</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="sheet-label" style="margin-top:24px;"><span>AM Roles & Responsibilities - Full Spreadsheet</span><span class="live-badge">LIVE</span></div>
+    <div class="sheet-embed">
+      <iframe src="https://docs.google.com/spreadsheets/d/15un1kJ-utDAIVzV_0SnVbV4N4pJGJ8u-UxRKXDgF3aA/edit?gid=0#gid=0&widget=true&headers=false" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <!-- ==================== SAM ROLE PLAN ==================== -->
+  <div class="section" id="role-plan">
+    <div class="section-title">
+      <div class="icon" style="background:var(--blue-bg);">S</div>
+      SAM Role Plan (Live)
+    </div>
+
+    <div class="card" style="margin-bottom:24px;">
+      <h3>Sales Account Manager &mdash; Role, Projects & Daily Plan</h3>
+      <p style="margin-top:8px;">Rachel Barnett is Sales Account Manager at Pubity Group, overseeing revenue operations, CRM accuracy, client relationships, and seller performance across a team of 6 sellers. She manages Josh Doherty (Revenue Operations Executive) and works closely with Seb.</p>
+    </div>
+
+    <div class="section-title">
+      <div class="icon" style="background:var(--cyan-bg);">T</div>
+      Weekly Time Allocation (40-hour week)
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:24px;">
+      <table>
+        <tr><th>Project / Area</th><th>Hrs/Week</th><th>% Time</th><th>Focus</th></tr>
+        <tr><td style="font-weight:600;color:var(--blue);">Slack Channel Hygiene (PRIMARY)</td><td><strong>16 hrs</strong></td><td>40%</td><td>Daily: audit deal channels, RFI usage, naming, comms standards, client pod hygiene.</td></tr>
+        <tr><td style="font-weight:600;color:var(--amber);">Finance & Invoicing</td><td><strong>8 hrs</strong></td><td>20%</td><td>Chase NCFs, media plans, contracts for Muhammad. Build missing docs tracker.</td></tr>
+        <tr><td style="font-weight:600;color:var(--purple);">CRM / HubSpot</td><td><strong>6 hrs</strong></td><td>15%</td><td>HubSpot improvement project oversight. Data quality, pipeline accuracy.</td></tr>
+        <tr><td style="font-weight:600;color:var(--cyan);">Travel & Events</td><td><strong>4 hrs</strong></td><td>10%</td><td>Trip planning, logistics, conference coordination.</td></tr>
+        <tr><td style="font-weight:600;color:var(--green);">Client Gifting</td><td><strong>2 hrs</strong></td><td>5%</td><td>Quarterly gifting cycle. Q1 due mid-April.</td></tr>
+        <tr><td style="font-weight:600;color:var(--pink);">Seller Onboarding & LinkedIn</td><td><strong>2 hrs</strong></td><td>5%</td><td>New seller guides. LinkedIn visibility for team.</td></tr>
+        <tr><td style="font-weight:600;">Weekly Seller Sessions</td><td><strong>2 hrs</strong></td><td>5%</td><td>Friday calls with sellers. CRM updates, IO chase, NCF chase.</td></tr>
+      </table>
+    </div>
+
+    <a href="https://pubitypgl-my.sharepoint.com/:w:/r/personal/rachel_barnett_pubitygroup_com/_layouts/15/Doc.aspx?sourcedoc=%7BF5062CD4-90A9-4172-B09F-7AB96A236297%7D&file=SAM_Role_Plan_Live.docx&action=default&mobileredirect=true" target="_blank" class="doc-link">
+      <div class="doc-icon" style="background:var(--blue-bg);color:var(--blue);">W</div>
+      <div class="doc-info">
+        <div class="doc-name">Open Full SAM Role Plan in SharePoint</div>
+        <div class="doc-desc">SAM_Role_Plan_Live.docx</div>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+<script>
+function switchTab(tabId) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  const tabMap = {
+    'overview': 'Overview', 'pipeline': 'Pipeline', 'seller-hub': 'Seller Hub',
+    'daily': 'Daily & Weekly', 'projects': 'Active Projects',
+    'trips': 'Trips & Conferences', 'events': 'Events',
+    'hubspot': 'HubSpot CRM', 'gifting': 'Gifting',
+    'strategic': 'Strategic Accounts', 'resources': 'Resources',
+    'outreach': 'Outreach', 'missing-data': 'Missing Data', 'am-roles': 'AM Roles', 'role-plan': 'SAM Role Plan'
+  };
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if (t.textContent === tabMap[tabId]) t.classList.add('active');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function switchTrip(tripId) {
+  document.querySelectorAll('#trips .sub-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('#trips .sub-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tripId).classList.add('active');
+  const tripMap = {
+    'all': 'All Trips', 'hip-emea': 'HIP EMEA', 'miami': 'POSSIBLE Miami',
+    'cannes': 'Cannes Lions', 'hip-la': 'HIP LA', 'middle-east': 'Middle East'
+  };
+  document.querySelectorAll('#trips .sub-tab').forEach(t => {
+    if (t.textContent === tripMap[tripId]) t.classList.add('active');
+  });
+}
+
+function switchSeller(sellerId) {
+  document.querySelectorAll('.seller-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.seller-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(sellerId).classList.add('active');
+  const sellerMap = {
+    'allie': 'Allie ($6.85M)', 'myles': 'Myles ($3.29M)', 'alex': 'Alex ($3.08M)',
+    'dustin': 'Dustin ($1.9M)', 'nina': 'Nina ($1.45M)', 'brianna': 'Brianna ($1.4M)'
+  };
+  document.querySelectorAll('.seller-tab').forEach(t => {
+    if (t.textContent === sellerMap[sellerId]) t.classList.add('active');
+  });
+}
+
+// Ask Rachel request system - uses localStorage for persistence
+function getRequests(seller) {
+  const data = localStorage.getItem('rachel-hub-requests-' + seller);
+  return data ? JSON.parse(data) : [];
+}
+
+function saveRequests(seller, requests) {
+  localStorage.setItem('rachel-hub-requests-' + seller, JSON.stringify(requests));
+}
+
+function renderRequests(seller) {
+  const container = document.getElementById(seller + '-requests');
+  const requests = getRequests(seller);
+  container.innerHTML = requests.map((r, i) =>
+    `<div class="request-item">
+      <span>${r.text}</span>
+      <span class="timestamp">${r.date} <span style="cursor:pointer;color:var(--red);margin-left:8px;" onclick="removeRequest('${seller}',${i})">x</span></span>
+    </div>`
+  ).join('');
+}
+
+function addRequest(seller) {
+  const input = document.getElementById(seller + '-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const requests = getRequests(seller);
+  requests.push({ text: text, date: new Date().toLocaleDateString('en-GB') });
+  saveRequests(seller, requests);
+  renderRequests(seller);
+  input.value = '';
+}
+
+function removeRequest(seller, index) {
+  const requests = getRequests(seller);
+  requests.splice(index, 1);
+  saveRequests(seller, requests);
+  renderRequests(seller);
+}
+
+// Render all requests on load
+['allie','myles','alex','dustin','nina','brianna'].forEach(renderRequests);
+</script>
+
+</body>
+</html>
