@@ -2496,10 +2496,8 @@ function todayKey(){
   return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
 }
 function daysUntil(dateStr){
-  var target=new Date(dateStr);
-  var now=new Date();
-  now.setHours(0,0,0,0);
-  target.setHours(0,0,0,0);
+  var target=new Date(dateStr),now=new Date();
+  now.setHours(0,0,0,0); target.setHours(0,0,0,0);
   return Math.ceil((target-now)/86400000);
 }
 function fmtMoney(n){
@@ -2507,48 +2505,63 @@ function fmtMoney(n){
   if(n>=1000) return '$'+(n/1000).toFixed(0)+'K';
   return '$'+n;
 }
+function mkEl(tag,cls,html){
+  var el=document.createElement(tag);
+  if(cls) el.className=cls;
+  if(html) el.innerHTML=html;
+  return el;
+}
+
+// ===== THEME TOGGLE =====
 function initTheme(){
   var saved=localStorage.getItem('hub-theme')||'light';
   if(saved==='dark') document.body.classList.add('dark');
-  var btn=document.createElement('button');
+  var btn=mkEl('button');
   btn.id='theme-toggle';
-  btn.textContent=saved==='dark'?'☀️ Light':'🌙 Dark';
-  btn.onclick=function(){
+  btn.textContent=saved==='dark'?'âï¸ Light':'ð Dark';
+  btn.addEventListener('click',function(){
     var isDark=document.body.classList.toggle('dark');
-    btn.textContent=isDark?'☀️ Light':'🌙 Dark';
+    btn.textContent=isDark?'âï¸ Light':'ð Dark';
     localStorage.setItem('hub-theme',isDark?'dark':'light');
-  };
+  });
   document.body.appendChild(btn);
 }
+
+// ===== CANNES COUNTDOWN =====
 function initCannesCountdown(){
   var days=daysUntil('2026-06-01');
-  var el=document.createElement('div');
+  var el=mkEl('div');
   el.id='cannes-countdown';
   if(days<=30) el.classList.add('urgent');
-  el.innerHTML='<span>✈️ Cannes</span><span class="cc-label">Criteria deadline</span><strong>'+days+' days</strong>';
+  el.innerHTML='<span>âï¸ Cannes</span><span class="cc-label">Criteria deadline</span><strong>'+days+' days</strong>';
   var h1=document.querySelector('h1,h2,.page-title');
   if(h1&&h1.parentNode){h1.parentNode.insertBefore(el,h1.nextSibling);}
   else{(document.querySelector('main,.container')||document.body).prepend(el);}
 }
+
+// ===== SELLERS =====
 var SELLERS=[
-  {id:'allie',   name:'Allie',   pipeline:285000,q1closed:142000,target:200000,color:'#6366f1'},
-  {id:'myles',   name:'Myles',   pipeline:310000,q1closed:168000,target:220000,color:'#8b5cf6'},
-  {id:'alex',    name:'Alex G',  pipeline:195000,q1closed:87000, target:160000,color:'#06b6d4'},
-  {id:'dustin',  name:'Dustin',  pipeline:420000,q1closed:215000,target:250000,color:'#f59e0b'},
-  {id:'nina',    name:'Nina',    pipeline:145000,q1closed:62000, target:130000,color:'#ec4899'},
-  {id:'brianna', name:'Brianna', pipeline:175000,q1closed:78000, target:150000,color:'#10b981'},
+  {id:'allie',   name:'Allie',   q1closed:142000,target:200000,color:'#6366f1'},
+  {id:'myles',   name:'Myles',   q1closed:168000,target:220000,color:'#8b5cf6'},
+  {id:'alex',    name:'Alex G',  q1closed:87000, target:160000,color:'#06b6d4'},
+  {id:'dustin',  name:'Dustin',  q1closed:215000,target:250000,color:'#f59e0b'},
+  {id:'nina',    name:'Nina',    q1closed:62000, target:130000,color:'#ec4899'},
+  {id:'brianna', name:'Brianna', q1closed:78000, target:150000,color:'#10b981'},
 ];
+
+// ===== HEALTH DOTS =====
 function addHealthDots(){
   document.querySelectorAll('td').forEach(function(cell){
     var m=cell.textContent.trim().match(/^(\d+)%$/);
     if(m&&!cell.querySelector('.health-dot')){
       var pct=parseInt(m[1]);
-      var dot=document.createElement('span');
-      dot.className='health-dot '+(pct>=60?'health-green':pct<=10?'health-red':'health-amber');
+      var dot=mkEl('span','health-dot '+(pct>=60?'health-green':pct<=10?'health-red':'health-amber'));
       cell.prepend(dot);
     }
   });
 }
+
+// ===== SELLER MINI PROGRESS =====
 function addSellerProgressBars(){
   SELLERS.forEach(function(s){
     var all=document.querySelectorAll('*'),sellerCard=null;
@@ -2560,109 +2573,189 @@ function addSellerProgressBars(){
     }
     if(!sellerCard||sellerCard.querySelector('.seller-mini-progress')) return;
     var pct=Math.min(100,Math.round((s.q1closed/s.target)*100));
-    var wrap=document.createElement('div');
-    wrap.className='seller-mini-progress';
-    wrap.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:2px"><span>Q1: '+fmtMoney(s.q1closed)+' / '+fmtMoney(s.target)+'</span><span style="font-weight:700;color:'+s.color+'">'+pct+'%</span></div><div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:'+pct+'%;background:'+s.color+'"></div></div>';
+    var wrap=mkEl('div','seller-mini-progress');
+    wrap.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:2px">'
+      +'<span>Q1: '+fmtMoney(s.q1closed)+' / '+fmtMoney(s.target)+'</span>'
+      +'<span style="font-weight:700;color:'+s.color+'">'+pct+'%</span></div>'
+      +'<div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:'+pct+'%;background:'+s.color+'"></div></div>';
     sellerCard.appendChild(wrap);
   });
 }
-window.hubMtgChange=function(sid,delta){
-  var k='mtg-'+sid+'-'+getWeekKey();
-  var c=Math.max(0,parseInt(localStorage.getItem(k)||'0')+delta);
-  localStorage.setItem(k,c);
+
+// ===== MTG COUNTER UPDATE =====
+function updateMtgDisplay(sid,count){
   var ce=document.getElementById('mtgc-'+sid),be=document.getElementById('mtgb-'+sid);
-  if(ce) ce.textContent=c;
-  if(be){var p=Math.min(100,Math.round((c/5)*100));var col=c>=5?'var(--green)':c>=3?'var(--amber)':'var(--red)';be.style.width=p+'%';be.style.background=col;}
-};
+  if(ce) ce.textContent=count;
+  if(be){
+    var p=Math.min(100,Math.round((count/5)*100));
+    var col=count>=5?'var(--green)':count>=3?'var(--amber)':'var(--red)';
+    be.style.width=p+'%'; be.style.background=col;
+  }
+}
 function buildMeetingCounters(){
-  var wrap=document.createElement('div');
+  var wrap=mkEl('div');
   wrap.id='meeting-counters-section';
-  wrap.innerHTML='<h3 style="font-size:14px;margin:16px 0 8px;">📅 Weekly Meetings <span style="font-size:11px;font-weight:400;color:var(--subtext)">(Target: 5/seller)</span></h3>';
+  wrap.appendChild(mkEl('h3',null,'ð Weekly Meetings <span style="font-size:11px;font-weight:400;color:var(--subtext)">(Target: 5/seller)</span>'));
+  wrap.querySelector('h3').style.cssText='font-size:14px;margin:16px 0 8px';
   SELLERS.forEach(function(s){
     var c=parseInt(localStorage.getItem('mtg-'+s.id+'-'+getWeekKey())||'0');
     var p=Math.min(100,Math.round((c/5)*100));
     var col=c>=5?'var(--green)':c>=3?'var(--amber)':'var(--red)';
-    var row=document.createElement('div');
-    row.className='meeting-counter-wrap';
-    row.innerHTML='<div class="mtg-label">'+s.name+'<div class="mini-bar-wrap" style="margin-top:4px"><div class="mini-bar-fill" id="mtgb-'+s.id+'" style="width:'+p+'%;background:'+col+'"></div></div></div>'
-      +'<div class="mtg-btns"><button class="mtg-btn" onclick="hubMtgChange(''+s.id+'',-1)">−</button>'
-      +'<span class="mtg-count" id="mtgc-'+s.id+'">'+c+'</span>'
-      +'<button class="mtg-btn" onclick="hubMtgChange(''+s.id+'',1)">+</button>'
-      +'<span class="mtg-target">/5</span></div>'
-      +'<a class="mtg-outlook-link" href="https://outlook.office.com/calendar/view/week" target="_blank">📆 Outlook</a>';
+    var row=mkEl('div','meeting-counter-wrap');
+    var label=mkEl('div','mtg-label',s.name+'<div class="mini-bar-wrap" style="margin-top:4px"><div class="mini-bar-fill" id="mtgb-'+s.id+'" style="width:'+p+'%;background:'+col+'"></div></div>');
+    var btns=mkEl('div','mtg-btns');
+    var dec=mkEl('button','mtg-btn','â');
+    var countEl=mkEl('span','mtg-count',String(c));
+    countEl.id='mtgc-'+s.id;
+    var inc=mkEl('button','mtg-btn','+');
+    var tgt=mkEl('span','mtg-target','/5');
+    var link=mkEl('a','mtg-outlook-link','ð Outlook');
+    link.href='https://outlook.office.com/calendar/view/week';
+    link.target='_blank';
+    (function(sid){
+      dec.addEventListener('click',function(){
+        var k='mtg-'+sid+'-'+getWeekKey();
+        var v=Math.max(0,parseInt(localStorage.getItem(k)||'0')-1);
+        localStorage.setItem(k,v); updateMtgDisplay(sid,v);
+      });
+      inc.addEventListener('click',function(){
+        var k='mtg-'+sid+'-'+getWeekKey();
+        var v=parseInt(localStorage.getItem(k)||'0')+1;
+        localStorage.setItem(k,v); updateMtgDisplay(sid,v);
+      });
+    })(s.id);
+    btns.appendChild(dec); btns.appendChild(countEl); btns.appendChild(inc); btns.appendChild(tgt);
+    row.appendChild(label); row.appendChild(btns); row.appendChild(link);
     wrap.appendChild(row);
   });
   return wrap;
 }
-window.hubConfUpdate=function(cid,sid,tgt,delta){
-  var k='conf-'+cid+'-'+sid+'-'+getWeekKey();
-  var c=Math.max(0,parseInt(localStorage.getItem(k)||'0')+delta);
-  localStorage.setItem(k,c);
+
+// ===== CONF TRACKER =====
+function updateConfDisplay(cid,sid,count,tgt){
   var ce=document.getElementById('ccount-'+cid+'-'+sid),be=document.getElementById('cbar-'+cid+'-'+sid);
-  if(ce) ce.textContent=c;
-  if(be){var p=Math.min(100,Math.round((c/tgt)*100));var col=c>=tgt?'var(--green)':c>0?'var(--amber)':'var(--red)';be.style.width=p+'%';be.style.background=col;}
-};
+  if(ce) ce.textContent=count;
+  if(be){
+    var p=Math.min(100,Math.round((count/tgt)*100));
+    var col=count>=tgt?'var(--green)':count>0?'var(--amber)':'var(--red)';
+    be.style.width=p+'%'; be.style.background=col;
+  }
+}
 function buildConfTracker(conf){
-  var days=daysUntil(conf.date),div=document.createElement('div');
-  div.className='conf-tracker';
-  var html='<h4>'+conf.emoji+' '+conf.name+' Meetings<span class="conf-countdown-badge'+(days<=14?' soon':'')+'">'+days+'d away</span></h4>';
+  var days=daysUntil(conf.date),div=mkEl('div','conf-tracker');
+  var h4=mkEl('h4',null,conf.emoji+' '+conf.name+' Meetings'
+    +'<span class="conf-countdown-badge'+(days<=14?' soon':'')+'">'+days+'d away</span>');
+  div.appendChild(h4);
   SELLERS.forEach(function(s){
     var c=parseInt(localStorage.getItem('conf-'+conf.id+'-'+s.id+'-'+getWeekKey())||'0');
     var p=Math.min(100,Math.round((c/conf.target)*100));
     var col=c>=conf.target?'var(--green)':c>0?'var(--amber)':'var(--red)';
-    html+='<div class="conf-seller-row"><span style="font-weight:600;min-width:70px">'+s.name+'</span>'
-      +'<div class="mini-bar-wrap" style="flex:1;margin:0 10px"><div id="cbar-'+conf.id+'-'+s.id+'" class="mini-bar-fill" style="width:'+p+'%;background:'+col+'"></div></div>'
-      +'<div class="conf-mini-btns"><button class="conf-mini-btn" onclick="hubConfUpdate(''+conf.id+'',''+s.id+'','+conf.target+',-1)">−</button>'
-      +'<span class="conf-count" id="ccount-'+conf.id+'-'+s.id+'">'+c+'</span>'
-      +'<button class="conf-mini-btn" onclick="hubConfUpdate(''+conf.id+'',''+s.id+'','+conf.target+',1)">+</button>'
-      +'<span style="color:var(--subtext)">/'+conf.target+'</span></div></div>';
+    var row=mkEl('div','conf-seller-row');
+    var name=mkEl('span',null,s.name);
+    name.style.cssText='font-weight:600;min-width:70px';
+    var barWrap=mkEl('div','mini-bar-wrap');
+    barWrap.style.cssText='flex:1;margin:0 10px';
+    var bar=mkEl('div','mini-bar-fill');
+    bar.id='cbar-'+conf.id+'-'+s.id;
+    bar.style.cssText='width:'+p+'%;background:'+col;
+    barWrap.appendChild(bar);
+    var cntBtns=mkEl('div','conf-mini-btns');
+    var dec=mkEl('button','conf-mini-btn','â');
+    var cnt=mkEl('span','conf-count',String(c));
+    cnt.id='ccount-'+conf.id+'-'+s.id;
+    var inc=mkEl('button','conf-mini-btn','+');
+    var tgtEl=mkEl('span',null,'/'+conf.target);
+    tgtEl.style.color='var(--subtext)';
+    (function(cid2,sid,tgt){
+      dec.addEventListener('click',function(){
+        var k='conf-'+cid2+'-'+sid+'-'+getWeekKey();
+        var v=Math.max(0,parseInt(localStorage.getItem(k)||'0')-1);
+        localStorage.setItem(k,v); updateConfDisplay(cid2,sid,v,tgt);
+      });
+      inc.addEventListener('click',function(){
+        var k='conf-'+cid2+'-'+sid+'-'+getWeekKey();
+        var v=parseInt(localStorage.getItem(k)||'0')+1;
+        localStorage.setItem(k,v); updateConfDisplay(cid2,sid,v,tgt);
+      });
+    })(conf.id,s.id,conf.target);
+    cntBtns.appendChild(dec); cntBtns.appendChild(cnt); cntBtns.appendChild(inc); cntBtns.appendChild(tgtEl);
+    row.appendChild(name); row.appendChild(barWrap); row.appendChild(cntBtns);
+    div.appendChild(row);
   });
-  div.innerHTML=html;
   return div;
 }
-var DAILY_TASKS=['Check Monday.com board','Update HubSpot pipeline','Chase outstanding docs (IO / NCF / Media Plan)','Reply to seller queries','Log meetings from yesterday','Check Slack for urgent messages','Send end-of-day summary to Seb'];
-window.hubDpToggle=function(i,checked){
-  localStorage.setItem('dt-'+i+'-'+todayKey(),checked?'1':'0');
-  var row=document.getElementById('dpt-'+i);
-  if(row) row.className='dp-task'+(checked?' done':'');
-};
-window.hubDpCollapse=function(){
-  var body=document.getElementById('dp-body'),btn=document.getElementById('dp-toggle-btn');
-  if(!body) return;
-  var hidden=body.style.display==='none';
-  body.style.display=hidden?'':'none';
-  if(btn) btn.textContent=hidden?'▾':'▸';
-};
+
+// ===== DAILY PANEL =====
+var DAILY_TASKS=[
+  'Check Monday.com board','Update HubSpot pipeline',
+  'Chase outstanding docs (IO / NCF / Media Plan)',
+  'Reply to seller queries','Log meetings from yesterday',
+  'Check Slack for urgent messages','Send end-of-day summary to Seb'
+];
 function buildDailyPanel(){
-  var panel=document.createElement('div'),today=todayKey(),taskHtml='';
+  var panel=mkEl('div');
   panel.id='daily-panel';
+  var today=todayKey();
+  var hdr=mkEl('div','dp-header','â Daily Non-Negotiables');
+  var toggleBtn=mkEl('button');
+  toggleBtn.id='dp-toggle-btn';
+  toggleBtn.textContent='â¾';
+  hdr.appendChild(toggleBtn);
+  var body=mkEl('div','dp-body');
+  body.id='dp-body';
+  body.appendChild(mkEl('div','dp-date',new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'})));
   DAILY_TASKS.forEach(function(t,i){
     var done=localStorage.getItem('dt-'+i+'-'+today)==='1';
-    taskHtml+='<div class="dp-task'+(done?' done':'')+'" id="dpt-'+i+'"><input type="checkbox" id="dp-cb-'+i+'"'+(done?' checked':'')+' onchange="hubDpToggle('+i+',this.checked)"><label for="dp-cb-'+i+'">'+t+'</label></div>';
+    var row=mkEl('div','dp-task'+(done?' done':''));
+    row.id='dpt-'+i;
+    var cb=document.createElement('input');
+    cb.type='checkbox'; cb.id='dp-cb-'+i; if(done) cb.checked=true;
+    var lbl=mkEl('label',null,t);
+    lbl.htmlFor='dp-cb-'+i;
+    (function(idx){
+      cb.addEventListener('change',function(){
+        localStorage.setItem('dt-'+idx+'-'+todayKey(),cb.checked?'1':'0');
+        var r=document.getElementById('dpt-'+idx);
+        if(r) r.className='dp-task'+(cb.checked?' done':'');
+      });
+    })(i);
+    row.appendChild(cb); row.appendChild(lbl);
+    body.appendChild(row);
   });
-  panel.innerHTML='<div class="dp-header" onclick="hubDpCollapse()">✅ Daily Non-Negotiables<button id="dp-toggle-btn">▾</button></div><div class="dp-body" id="dp-body"><div class="dp-date">'+new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'})+'</div>'+taskHtml+'</div>';
+  hdr.addEventListener('click',function(e){
+    if(e.target===toggleBtn||e.target===hdr){
+      var hidden=body.style.display==='none';
+      body.style.display=hidden?'':'none';
+      toggleBtn.textContent=hidden?'â¾':'â¸';
+    }
+  });
+  panel.appendChild(hdr); panel.appendChild(body);
   document.body.appendChild(panel);
 }
+
+// ===== FLIGHT TRACKER =====
 function buildFlightTracker(){
-  var wrap=document.createElement('div');
-  wrap.className='flight-tracker';
-  wrap.innerHTML='<h3>✈️ Cannes Flight Tracker <span style="font-size:11px;font-weight:400;color:var(--subtext)">14-26 Jun 2026</span></h3>'
-    +'<table class="flight-table"><thead><tr><th>Name</th><th>Outbound</th><th>Status</th><th>Return</th><th>Status</th></tr></thead><tbody>'
-    +'<tr class="flight-section-head"><td colspan="5">🇬🇧 UK Team (via Barcelona)</td></tr>'
-    +'<tr><td>Myles</td><td>BCN via Lizzy</td><td class="status-booked">✅ BOOKED</td><td>Self + transfer</td><td class="status-booked">✅ BOOKED</td></tr>'
-    +'<tr><td>Alex G</td><td>BCN via Lizzy</td><td class="status-booked">✅ BOOKED</td><td>Self + transfer</td><td class="status-booked">✅ BOOKED</td></tr>'
-    +'<tr><td>Kit</td><td>BCN via Lizzy</td><td class="status-booked">✅ BOOKED</td><td>via Ste</td><td class="status-booked">✅ BOOKED</td></tr>'
-    +'<tr><td>Iyrah</td><td>BCN via Lizzy</td><td class="status-booked">✅ BOOKED</td><td>via Ste</td><td class="status-booked">✅ BOOKED</td></tr>'
-    +'<tr class="flight-section-head"><td colspan="5">🇺🇸 US Team</td></tr>'
-    +'<tr><td>Dustin</td><td>CLT→BCN 14 Jun</td><td class="status-pending">⚠️ PENDING EOD</td><td>NCE→CLT 26 Jun</td><td class="status-pending">⚠️ PENDING EOD</td></tr>'
-    +'<tr><td>Allie</td><td>Delta 124 JFK→BCN 14 Jun #GC3ZCO</td><td class="status-booked">✅ BOOKED</td><td>AF/DL 8668 NCE→JFK 26 Jun #GCV66X</td><td class="status-booked">✅ BOOKED</td></tr>'
+  var wrap=mkEl('div','flight-tracker');
+  wrap.innerHTML='<h3>âï¸ Cannes Flight Tracker <span style="font-size:11px;font-weight:400;color:var(--subtext)">14-26 Jun 2026</span></h3>'
+    +'<table class="flight-table"><thead><tr><th>Name</th><th>Outbound</th><th>Status</th><th>Return</th><th>Status</th></tr></thead>'
+    +'<tbody>'
+    +'<tr class="flight-section-head"><td colspan="5">ð¬ð§ UK Team (via Barcelona)</td></tr>'
+    +'<tr><td>Myles</td><td>BCN via Lizzy</td><td class="status-booked">â BOOKED</td><td>Self + transfer</td><td class="status-booked">â BOOKED</td></tr>'
+    +'<tr><td>Alex G</td><td>BCN via Lizzy</td><td class="status-booked">â BOOKED</td><td>Self + transfer</td><td class="status-booked">â BOOKED</td></tr>'
+    +'<tr><td>Kit</td><td>BCN via Lizzy</td><td class="status-booked">â BOOKED</td><td>via Ste</td><td class="status-booked">â BOOKED</td></tr>'
+    +'<tr><td>Iyrah</td><td>BCN via Lizzy</td><td class="status-booked">â BOOKED</td><td>via Ste</td><td class="status-booked">â BOOKED</td></tr>'
+    +'<tr class="flight-section-head"><td colspan="5">ðºð¸ US Team</td></tr>'
+    +'<tr><td>Dustin</td><td>CLTâBCN 14 Jun</td><td class="status-pending">â ï¸ PENDING EOD</td><td>NCEâCLT 26 Jun</td><td class="status-pending">â ï¸ PENDING EOD</td></tr>'
+    +'<tr><td>Allie</td><td>Delta 124 JFKâBCN 14 Jun #GC3ZCO</td><td class="status-booked">â BOOKED</td><td>AF/DL 8668 NCEâJFK 26 Jun #GCV66X</td><td class="status-booked">â BOOKED</td></tr>'
     +'</tbody></table>';
   return wrap;
 }
+
+// ===== INJECT =====
 function findOrCreateSection(id,title){
   var sec=document.getElementById(id);
   if(!sec){
-    sec=document.createElement('section');
+    sec=mkEl('section');
     sec.id=id;
     sec.innerHTML='<h2 style="font-size:16px;margin:20px 0 10px;border-bottom:2px solid var(--border);padding-bottom:6px;">'+title+'</h2>';
     (document.querySelector('main,#main,.main-content,.container')||document.body).appendChild(sec);
@@ -2672,10 +2765,10 @@ function findOrCreateSection(id,title){
 function run(){
   initTheme();
   initCannesCountdown();
-  var ops=findOrCreateSection('hub-ops','📊 Sales Operations');
+  var ops=findOrCreateSection('hub-ops','ð Sales Operations');
   ops.appendChild(buildMeetingCounters());
-  ops.appendChild(buildConfTracker({id:'miami',name:'POSSIBLE Miami',emoji:'🌴',date:'2026-04-17',target:4}));
-  ops.appendChild(buildConfTracker({id:'cannes',name:'Cannes Lions',emoji:'🦁',date:'2026-06-22',target:5}));
+  ops.appendChild(buildConfTracker({id:'miami',name:'POSSIBLE Miami',emoji:'ð´',date:'2026-04-17',target:4}));
+  ops.appendChild(buildConfTracker({id:'cannes',name:'Cannes Lions',emoji:'ð¦',date:'2026-06-22',target:5}));
   ops.appendChild(buildFlightTracker());
   setTimeout(addSellerProgressBars,400);
   setTimeout(addHealthDots,600);
@@ -2684,6 +2777,7 @@ function run(){
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
 else{run();}
 })();
+
 </script>
 
 </body>
