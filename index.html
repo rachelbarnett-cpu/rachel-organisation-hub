@@ -2286,5 +2286,544 @@ function removeRequest(seller, index) {
 </script>
 
 <script>function td(cb){var i=cb.closest(".todo-item");if(i)i.classList.toggle("done",cb.checked)}</script>
+
+<style id="hub-enhancements">
+/* ===== THEME VARIABLES ===== */
+:root {
+  --bg:#f4f6fb; --card:#fff; --text:#1a1a2e; --subtext:#6b7280;
+  --border:#e5e7eb; --green:#16a34a; --amber:#d97706; --red:#dc2626;
+  --accent:#6366f1; --accent2:#8b5cf6;
+}
+body.dark {
+  --bg:#0f1117; --card:#1e2130; --text:#e2e8f0; --subtext:#94a3b8;
+  --border:#2d3748; --green:#22c55e; --amber:#f59e0b; --red:#ef4444;
+}
+body { background:var(--bg); color:var(--text); transition:background .3s,color .3s; }
+
+/* ===== THEME TOGGLE ===== */
+#theme-toggle {
+  position:fixed; top:14px; right:18px; z-index:9999;
+  background:var(--card); border:1.5px solid var(--border);
+  border-radius:20px; padding:4px 12px; cursor:pointer;
+  font-size:13px; color:var(--text); box-shadow:0 2px 8px rgba(0,0,0,.12);
+  transition:all .2s;
+}
+#theme-toggle:hover { transform:scale(1.05); }
+
+/* ===== STATS SYNCED BADGE ===== */
+.synced-badge {
+  font-size:10px; color:var(--subtext); background:var(--bg);
+  border:1px solid var(--border); border-radius:10px;
+  padding:2px 8px; margin-left:8px; vertical-align:middle;
+}
+
+/* ===== CANNES COUNTDOWN ===== */
+#cannes-countdown {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--card); border:1.5px solid var(--border);
+  border-radius:10px; padding:6px 14px; margin:8px 4px;
+  font-weight:600; font-size:13px; box-shadow:0 1px 4px rgba(0,0,0,.08);
+}
+#cannes-countdown.urgent { border-color:var(--red); color:var(--red); background:#fff1f1; }
+#cannes-countdown .cc-label { font-size:11px; font-weight:400; color:var(--subtext); }
+
+/* ===== HEALTH DOTS ===== */
+.health-dot {
+  display:inline-block; width:10px; height:10px;
+  border-radius:50%; margin-right:6px; vertical-align:middle;
+}
+.health-green { background:var(--green); }
+.health-amber { background:var(--amber); }
+.health-red { background:var(--red); }
+
+/* ===== SELLER MINI PROGRESS ===== */
+.seller-mini-progress {
+  margin:6px 0 2px; font-size:11px; color:var(--subtext);
+}
+.mini-bar-wrap {
+  background:var(--border); border-radius:4px; height:6px;
+  width:100%; margin-top:3px; overflow:hidden;
+}
+.mini-bar-fill {
+  height:6px; border-radius:4px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transition:width .5s;
+}
+
+/* ===== QUARTERLY GRID ===== */
+.quarterly-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:8px;
+  margin:10px 0; font-size:12px;
+}
+.q-card {
+  background:var(--bg); border:1px solid var(--border);
+  border-radius:8px; padding:8px; text-align:center;
+}
+.q-card .q-label { font-weight:600; color:var(--subtext); font-size:10px; text-transform:uppercase; }
+.q-card .q-val { font-size:16px; font-weight:700; color:var(--text); margin-top:2px; }
+.q-card .q-target { font-size:10px; color:var(--subtext); }
+
+/* ===== MEETING COUNTER ===== */
+.meeting-counter-wrap {
+  display:flex; align-items:center; gap:8px;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:8px; padding:8px 12px; margin:8px 0;
+}
+.mtg-label { font-size:12px; font-weight:600; flex:1; }
+.mtg-btns { display:flex; align-items:center; gap:6px; }
+.mtg-btn {
+  width:26px; height:26px; border-radius:50%; border:1.5px solid var(--border);
+  background:var(--bg); cursor:pointer; font-size:15px; font-weight:700;
+  display:flex; align-items:center; justify-content:center; color:var(--text);
+  transition:all .15s;
+}
+.mtg-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+.mtg-count { font-size:18px; font-weight:700; min-width:24px; text-align:center; }
+.mtg-target { font-size:11px; color:var(--subtext); }
+.mtg-outlook-link { font-size:11px; color:var(--accent); text-decoration:none; }
+.mtg-outlook-link:hover { text-decoration:underline; }
+
+/* ===== CONFERENCE TRACKERS ===== */
+.conf-tracker {
+  background:var(--card); border:1.5px solid var(--border);
+  border-radius:10px; padding:12px; margin:10px 0;
+}
+.conf-tracker h4 { margin:0 0 8px; font-size:13px; display:flex; justify-content:space-between; }
+.conf-countdown-badge {
+  font-size:11px; padding:2px 8px; border-radius:8px;
+  background:var(--bg); border:1px solid var(--border);
+  font-weight:600; color:var(--subtext);
+}
+.conf-countdown-badge.soon { color:var(--red); border-color:var(--red); background:#fff1f1; }
+.conf-seller-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:4px 0; border-bottom:1px solid var(--border); font-size:12px;
+}
+.conf-seller-row:last-child { border-bottom:none; }
+.conf-mini-btns { display:flex; align-items:center; gap:5px; }
+.conf-mini-btn {
+  width:22px; height:22px; border-radius:50%; border:1px solid var(--border);
+  background:var(--bg); cursor:pointer; font-size:12px; display:flex;
+  align-items:center; justify-content:center; color:var(--text);
+}
+.conf-mini-btn:hover { background:var(--accent); color:#fff; }
+.conf-count { font-weight:700; min-width:20px; text-align:center; }
+
+/* ===== DAILY PANEL ===== */
+#daily-panel {
+  position:fixed; right:18px; top:80px; z-index:8888;
+  width:240px; background:var(--card); border:1.5px solid var(--border);
+  border-radius:14px; box-shadow:0 4px 24px rgba(0,0,0,.13);
+  overflow:hidden; transition:all .3s;
+}
+#daily-panel .dp-header {
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff; padding:10px 14px; font-weight:700; font-size:13px;
+  display:flex; justify-content:space-between; align-items:center;
+  cursor:pointer;
+}
+#daily-panel .dp-body { padding:10px 12px; }
+.dp-task {
+  display:flex; align-items:center; gap:8px;
+  padding:5px 0; font-size:12px; cursor:pointer; border-radius:6px;
+  transition:background .15s;
+}
+.dp-task:hover { background:var(--bg); }
+.dp-task input[type=checkbox] { cursor:pointer; accent-color:var(--accent); width:14px; height:14px; }
+.dp-task.done label { text-decoration:line-through; color:var(--subtext); }
+.dp-date { font-size:10px; color:var(--subtext); padding:4px 0 6px; }
+#dp-toggle-btn { background:none; border:none; color:#fff; cursor:pointer; font-size:16px; }
+
+/* ===== FLIGHT TRACKER ===== */
+.flight-tracker {
+  background:var(--card); border:1.5px solid var(--border);
+  border-radius:12px; padding:14px; margin:14px 0;
+}
+.flight-tracker h3 { margin:0 0 10px; font-size:14px; display:flex; align-items:center; gap:8px; }
+.flight-table { width:100%; border-collapse:collapse; font-size:12px; }
+.flight-table th {
+  background:var(--bg); text-align:left; padding:6px 10px;
+  font-size:11px; text-transform:uppercase; color:var(--subtext);
+  border-bottom:2px solid var(--border);
+}
+.flight-table td { padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:middle; }
+.flight-table tr:last-child td { border-bottom:none; }
+.status-booked { color:var(--green); font-weight:600; }
+.status-pending { color:var(--amber); font-weight:600; }
+.status-tbd { color:var(--subtext); }
+.flight-section-head td {
+  background:var(--bg); font-weight:700; font-size:11px;
+  text-transform:uppercase; letter-spacing:.05em; color:var(--accent);
+  padding:5px 10px;
+}
+
+/* ===== CHECKLISTS ===== */
+.checklist-item {
+  display:flex; align-items:center; gap:8px; padding:4px 0;
+  font-size:12px; cursor:pointer;
+}
+.checklist-item input { accent-color:var(--accent); cursor:pointer; }
+.checklist-item.ticked label { text-decoration:line-through; color:var(--subtext); }
+.checklist-reset-btn {
+  font-size:10px; padding:2px 8px; border-radius:6px; cursor:pointer;
+  background:var(--bg); border:1px solid var(--border); color:var(--subtext);
+  margin-top:6px;
+}
+.checklist-reset-btn:hover { color:var(--red); border-color:var(--red); }
+
+/* ===== STEP COMPLETE BTN ===== */
+.step-complete-btn {
+  font-size:10px; padding:2px 8px; border-radius:6px;
+  background:var(--bg); border:1px solid var(--green); color:var(--green);
+  cursor:pointer; margin-left:8px; transition:all .15s;
+}
+.step-complete-btn.done { background:var(--green); color:#fff; }
+</style>
+
+
+<script id="hub-enhancement-js">
+(function(){
+'use strict';
+
+// ===== HELPERS =====
+function getWeekKey(){
+  const d=new Date(),y=d.getFullYear();
+  const start=new Date(y,0,1);
+  const w=Math.ceil((((d-start)/86400000)+start.getDay()+1)/7);
+  return y+'-W'+w;
+}
+function todayKey(){
+  const d=new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+function daysUntil(dateStr){
+  const target=new Date(dateStr);
+  const now=new Date();
+  now.setHours(0,0,0,0);
+  target.setHours(0,0,0,0);
+  return Math.ceil((target-now)/86400000);
+}
+function fmtMoney(n){
+  if(n>=1000000) return '$'+(n/1000000).toFixed(1)+'M';
+  if(n>=1000) return '$'+(n/1000).toFixed(0)+'K';
+  return '$'+n;
+}
+
+// ===== THEME TOGGLE =====
+function initTheme(){
+  const saved=localStorage.getItem('hub-theme')||'light';
+  if(saved==='dark') document.body.classList.add('dark');
+  const btn=document.createElement('button');
+  btn.id='theme-toggle';
+  btn.title='Toggle dark/light mode';
+  btn.textContent=saved==='dark'?'☀️ Light':'🌙 Dark';
+  btn.onclick=function(){
+    const isDark=document.body.classList.toggle('dark');
+    btn.textContent=isDark?'☀️ Light':'🌙 Dark';
+    localStorage.setItem('hub-theme',isDark?'dark':'light');
+  };
+  document.body.appendChild(btn);
+}
+
+// ===== STATS SYNCED BADGE =====
+function addSyncedBadge(){
+  const now=new Date();
+  const ts=now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  document.querySelectorAll('.stat-card, [class*="stat"]').forEach(function(card){
+    if(!card.querySelector('.synced-badge')){
+      const badge=document.createElement('span');
+      badge.className='synced-badge';
+      badge.textContent='Synced '+ts;
+      const h=card.querySelector('h3,h4,.stat-label,.label');
+      if(h) h.appendChild(badge);
+    }
+  });
+}
+
+// ===== CANNES COUNTDOWN =====
+function initCannesCountdown(){
+  const days=daysUntil('2026-06-01');
+  const el=document.createElement('div');
+  el.id='cannes-countdown';
+  if(days<=30) el.classList.add('urgent');
+  el.innerHTML='<span>✈️ Cannes</span><span class="cc-label">Criteria deadline</span><strong>'+days+' days</strong>';
+  
+  // Insert after first h1 or at top of main content
+  const h1=document.querySelector('h1,h2,.page-title,.hub-title');
+  if(h1 && h1.parentNode){
+    h1.parentNode.insertBefore(el, h1.nextSibling);
+  } else {
+    const main=document.querySelector('main,.main-content,.container,[class*="content"]');
+    if(main) main.prepend(el);
+  }
+}
+
+// ===== SELLERS DATA =====
+const SELLERS=[
+  {id:'allie',   name:'Allie',   pipeline:285000, q1closed:142000, target:200000, color:'#6366f1'},
+  {id:'myles',   name:'Myles',   pipeline:310000, q1closed:168000, target:220000, color:'#8b5cf6'},
+  {id:'alex',    name:'Alex G',  pipeline:195000, q1closed:87000,  target:160000, color:'#06b6d4'},
+  {id:'dustin',  name:'Dustin',  pipeline:420000, q1closed:215000, target:250000, color:'#f59e0b'},
+  {id:'nina',    name:'Nina',    pipeline:145000, q1closed:62000,  target:130000, color:'#ec4899'},
+  {id:'brianna', name:'Brianna', pipeline:175000, q1closed:78000,  target:150000, color:'#10b981'},
+];
+
+// ===== SELLER MINI PROGRESS BARS =====
+function addSellerProgressBars(){
+  SELLERS.forEach(function(s){
+    // Find seller card/section by name
+    const allEls=document.querySelectorAll('*');
+    let sellerCard=null;
+    for(let i=0;i<allEls.length;i++){
+      const el=allEls[i];
+      if(el.children.length===0 && el.textContent.trim()===s.name){
+        sellerCard=el.closest('[class*="card"],[class*="seller"],[class*="panel"],li,tr,td') || el.parentElement;
+        break;
+      }
+    }
+    if(!sellerCard) return;
+    if(sellerCard.querySelector('.seller-mini-progress')) return;
+    
+    const pct=Math.min(100,Math.round((s.q1closed/s.target)*100));
+    const wrap=document.createElement('div');
+    wrap.className='seller-mini-progress';
+    wrap.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:2px;">'
+      +'<span>Q1: '+fmtMoney(s.q1closed)+' / '+fmtMoney(s.target)+'</span>'
+      +'<span style="font-weight:700;color:'+s.color+'">'+pct+'%</span>'
+      +'</div>'
+      +'<div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:'+pct+'%;background:'+s.color+'"></div></div>';
+    sellerCard.appendChild(wrap);
+  });
+}
+
+// ===== HEALTH DOTS =====
+function addHealthDots(){
+  // Look for stage/pipeline columns and add dots
+  document.querySelectorAll('td,th').forEach(function(cell){
+    const txt=cell.textContent.trim();
+    const pctMatch=txt.match(/^(d+)%$/);
+    if(pctMatch){
+      const pct=parseInt(pctMatch[1]);
+      let cls='health-amber';
+      if(pct>=60) cls='health-green';
+      else if(pct<=10) cls='health-red';
+      if(!cell.querySelector('.health-dot')){
+        const dot=document.createElement('span');
+        dot.className='health-dot '+cls;
+        cell.prepend(dot);
+      }
+    }
+  });
+}
+
+// ===== MEETING COUNTER =====
+function buildMeetingCounters(){
+  const wrap=document.createElement('div');
+  wrap.id='meeting-counters-section';
+  wrap.innerHTML='<h3 style="font-size:14px;margin:16px 0 8px;">📅 Weekly Meetings <span style="font-size:11px;font-weight:400;color:var(--subtext)">(Target: 5 per seller)</span></h3>';
+  
+  const week=getWeekKey();
+  SELLERS.forEach(function(s){
+    const key='mtg-'+s.id+'-'+week;
+    let count=parseInt(localStorage.getItem(key)||'0');
+    
+    const row=document.createElement('div');
+    row.className='meeting-counter-wrap';
+    
+    const pct=Math.min(100,Math.round((count/5)*100));
+    const barColor=count>=5?'var(--green)':count>=3?'var(--amber)':'var(--red)';
+    
+    row.innerHTML='<div class="mtg-label">'+s.name
+      +'<div class="mini-bar-wrap" style="margin-top:4px;"><div class="mini-bar-fill" id="mtg-bar-'+s.id+'" style="width:'+pct+'%;background:'+barColor+'"></div></div>'
+      +'</div>'
+      +'<div class="mtg-btns">'
+      +'<button class="mtg-btn" onclick="(function(){var k='mtg-'+s.id+'-'+''+week+'';var c=Math.max(0,parseInt(localStorage.getItem(k)||'0')-1);localStorage.setItem(k,c);document.getElementById('mtg-count-'+s.id+'').textContent=c;var p=Math.min(100,Math.round((c/5)*100));var bc=c>=5?'var(--green)':c>=3?'var(--amber)':'var(--red)';document.getElementById('mtg-bar-'+s.id+'').style.width=p+'%';document.getElementById('mtg-bar-'+s.id+'').style.background=bc;})()">−</button>'
+      +'<span class="mtg-count" id="mtg-count-'+s.id+'">'+count+'</span>'
+      +'<button class="mtg-btn" onclick="(function(){var k='mtg-'+s.id+'-'+''+week+'';var c=parseInt(localStorage.getItem(k)||'0')+1;localStorage.setItem(k,c);document.getElementById('mtg-count-'+s.id+'').textContent=c;var p=Math.min(100,Math.round((c/5)*100));var bc=c>=5?'var(--green)':c>=3?'var(--amber)':'var(--red)';document.getElementById('mtg-bar-'+s.id+'').style.width=p+'%';document.getElementById('mtg-bar-'+s.id+'').style.background=bc;})()">+</button>'
+      +'<span class="mtg-target">/5</span>'
+      +'</div>'
+      +'<a class="mtg-outlook-link" href="https://outlook.office.com/calendar/view/week" target="_blank">📆 Outlook</a>';
+    
+    wrap.appendChild(row);
+  });
+  return wrap;
+}
+
+// ===== CONFERENCE TRACKERS =====
+function buildConfTracker(conf){
+  const days=daysUntil(conf.date);
+  const urgent=days<=14;
+  const div=document.createElement('div');
+  div.className='conf-tracker';
+  
+  let html='<h4>'+conf.emoji+' '+conf.name+' Meeting Tracker'
+    +'<span class="conf-countdown-badge'+(urgent?' soon':'')+'">'+days+'d away</span></h4>';
+  
+  SELLERS.forEach(function(s){
+    const key='conf-'+conf.id+'-'+s.id+'-'+getWeekKey();
+    let count=parseInt(localStorage.getItem(key)||'0');
+    const pct=Math.min(100,Math.round((count/conf.target)*100));
+    const color=count>=conf.target?'var(--green)':count>0?'var(--amber)':'var(--red)';
+    
+    html+='<div class="conf-seller-row">'
+      +'<span style="font-weight:600;min-width:70px">'+s.name+'</span>'
+      +'<div class="mini-bar-wrap" style="flex:1;margin:0 10px;">'
+      +'<div id="cbar-'+conf.id+'-'+s.id+'" class="mini-bar-fill" style="width:'+pct+'%;background:'+color+'"></div>'
+      +'</div>'
+      +'<div class="conf-mini-btns">'
+      +'<button class="conf-mini-btn" onclick="hubConfUpdate(''+conf.id+'',''+s.id+'','+conf.target+',-1)">−</button>'
+      +'<span class="conf-count" id="ccount-'+conf.id+'-'+s.id+'">'+count+'</span>'
+      +'<button class="conf-mini-btn" onclick="hubConfUpdate(''+conf.id+'',''+s.id+'','+conf.target+',1)">+</button>'
+      +'<span style="color:var(--subtext);">/'+conf.target+'</span>'
+      +'</div>'
+      +'</div>';
+  });
+  
+  div.innerHTML=html;
+  return div;
+}
+
+window.hubConfUpdate=function(confId,sellerId,target,delta){
+  const key='conf-'+confId+'-'+sellerId+'-'+getWeekKey();
+  const count=Math.max(0,parseInt(localStorage.getItem(key)||'0')+delta);
+  localStorage.setItem(key,count);
+  const countEl=document.getElementById('ccount-'+confId+'-'+sellerId);
+  const barEl=document.getElementById('cbar-'+confId+'-'+sellerId);
+  if(countEl) countEl.textContent=count;
+  if(barEl){
+    const pct=Math.min(100,Math.round((count/target)*100));
+    const color=count>=target?'var(--green)':count>0?'var(--amber)':'var(--red)';
+    barEl.style.width=pct+'%';
+    barEl.style.background=color;
+  }
+};
+
+// ===== DAILY PANEL =====
+const DAILY_TASKS=[
+  'Check Monday.com board',
+  'Update HubSpot pipeline',
+  'Chase outstanding docs (IO/NCF/Media Plan)',
+  'Reply to seller queries',
+  'Log meetings from yesterday',
+  'Check Slack for urgent messages',
+  'Send end-of-day summary to Seb',
+];
+function buildDailyPanel(){
+  const panel=document.createElement('div');
+  panel.id='daily-panel';
+  const today=todayKey();
+  
+  let taskHtml='';
+  DAILY_TASKS.forEach(function(t,i){
+    const key='dt-'+i+'-'+today;
+    const done=localStorage.getItem(key)==='1';
+    taskHtml+='<div class="dp-task'+(done?' done':'')+'" id="dpt-'+i+'">'
+      +'<input type="checkbox" id="dp-cb-'+i+'" '+(done?'checked':'')
+      +' onchange="hubDpToggle('+i+',this.checked)">'
+      +'<label for="dp-cb-'+i+'">'+t+'</label>'
+      +'</div>';
+  });
+  
+  panel.innerHTML='<div class="dp-header" onclick="hubDpCollapse()">'
+    +'✅ Daily Non-Negotiables'
+    +'<button id="dp-toggle-btn">▾</button>'
+    +'</div>'
+    +'<div class="dp-body" id="dp-body">'
+    +'<div class="dp-date">'+new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'})+'</div>'
+    +taskHtml
+    +'</div>';
+  
+  document.body.appendChild(panel);
+}
+window.hubDpToggle=function(i,checked){
+  const key='dt-'+i+'-'+todayKey();
+  localStorage.setItem(key,checked?'1':'0');
+  const row=document.getElementById('dpt-'+i);
+  if(row) row.className='dp-task'+(checked?' done':'');
+};
+window.hubDpCollapse=function(){
+  const body=document.getElementById('dp-body');
+  const btn=document.getElementById('dp-toggle-btn');
+  if(!body) return;
+  const hidden=body.style.display==='none';
+  body.style.display=hidden?'':'none';
+  if(btn) btn.textContent=hidden?'▾':'▸';
+};
+
+// ===== FLIGHT TRACKER =====
+function buildFlightTracker(){
+  const wrap=document.createElement('div');
+  wrap.className='flight-tracker';
+  wrap.innerHTML='<h3>✈️ Cannes Flight Tracker <span style="font-size:11px;font-weight:400;color:var(--subtext)">14-26 Jun 2026</span></h3>'
+  +'<table class="flight-table">'
+  +'<thead><tr><th>Name</th><th>Outbound</th><th>Status</th><th>Return</th><th>Status</th></tr></thead>'
+  +'<tbody>'
+  +'<tr class="flight-section-head"><td colspan="5">🇬🇧 UK Team (via Barcelona)</td></tr>'
+  +'<tr><td>Myles</td><td>BCN via Lizzy</td><td class="status-booked">✅ BOOKED</td><td>Self booking</td><td class="status-booked">✅ BOOKED</td></tr>'
+  +'<tr><td>Alex G</td><td>BCN via Lizzy</td><td class="status-booked">✅ BOOKED</td><td>Self booking</td><td class="status-booked">✅ BOOKED</td></tr>'
+  +'<tr><td>Kit</td><td>BCN via Lizzy</td><td class="status-booked">✅ BOOKED</td><td>via Ste</td><td class="status-booked">✅ BOOKED</td></tr>'
+  +'<tr><td>Iyrah</td><td>BCN via Lizzy</td><td class="status-booked">✅ BOOKED</td><td>via Ste</td><td class="status-booked">✅ BOOKED</td></tr>'
+  +'<tr class="flight-section-head"><td colspan="5">🇺🇸 US Team</td></tr>'
+  +'<tr><td>Dustin</td><td>CLT→BCN 14 Jun</td><td class="status-pending">⚠️ PENDING EOD</td><td>NCE→CLT 26 Jun</td><td class="status-pending">⚠️ PENDING EOD</td></tr>'
+  +'<tr><td>Allie</td><td>Delta 124 JFK→BCN 14 Jun #GC3ZCO</td><td class="status-booked">✅ BOOKED</td><td>AF/DL 8668 NCE→JFK 26 Jun #GCV66X</td><td class="status-booked">✅ BOOKED</td></tr>'
+  +'</tbody></table>';
+  return wrap;
+}
+
+// ===== INJECT EVERYTHING =====
+function findOrCreateSection(id, title, insertAfter){
+  let sec=document.getElementById(id);
+  if(!sec){
+    sec=document.createElement('section');
+    sec.id=id;
+    sec.innerHTML='<h2 style="font-size:16px;margin:20px 0 10px;border-bottom:2px solid var(--border);padding-bottom:6px;">'+title+'</h2>';
+    if(insertAfter && insertAfter.parentNode){
+      insertAfter.parentNode.insertBefore(sec, insertAfter.nextSibling);
+    } else {
+      const main=document.querySelector('main,#main,.main-content,.hub-content,.container') || document.body;
+      main.appendChild(sec);
+    }
+  }
+  return sec;
+}
+
+function run(){
+  initTheme();
+  addSyncedBadge();
+  initCannesCountdown();
+  
+  // Build operations section
+  const opsSection=findOrCreateSection('hub-ops','📊 Sales Operations');
+  
+  // Meeting counters
+  opsSection.appendChild(buildMeetingCounters());
+  
+  // Conference trackers
+  const miami={id:'miami',name:'POSSIBLE Miami',emoji:'🌴',date:'2026-04-17',target:4};
+  const cannes={id:'cannes',name:'Cannes Lions',emoji:'🦁',date:'2026-06-22',target:5};
+  opsSection.appendChild(buildConfTracker(miami));
+  opsSection.appendChild(buildConfTracker(cannes));
+  
+  // Flight tracker
+  opsSection.appendChild(buildFlightTracker());
+  
+  // Add seller progress bars (after DOM settles)
+  setTimeout(addSellerProgressBars, 500);
+  setTimeout(addHealthDots, 600);
+  
+  // Daily panel
+  buildDailyPanel();
+  
+  console.log('Hub enhancements loaded ✓');
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', run);
+} else {
+  run();
+}
+})();
+</script>
+
 </body>
 </html>
