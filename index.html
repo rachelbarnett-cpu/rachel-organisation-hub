@@ -432,7 +432,18 @@
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-</style>
+:root{--shadow-card:0 4px 24px rgba(0,0,0,0.4),0 1px 4px rgba(0,0,0,0.3);--shadow-hover:0 8px 32px rgba(0,0,0,0.5),0 2px 8px rgba(0,0,0,0.4);--accent:#6366f1}
+.card{box-shadow:var(--shadow-card)!important;transition:box-shadow .2s ease,transform .2s ease!important}.card:hover{box-shadow:var(--shadow-hover)!important;transform:translateY(-2px)!important}
+.nav-tab{transition:all .2s ease!important}.nav-tab.active{background:#6366f1!important;box-shadow:0 0 20px rgba(99,102,241,0.3)!important}
+.todo-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow-card);transition:all .2s ease}.todo-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.todo-card-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}.todo-card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}.todo-card-title{font-size:15px;font-weight:600;color:var(--text)}.todo-card-subtitle{font-size:12px;color:var(--text-muted)}
+.todo-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,0.03);transition:background .15s ease;cursor:pointer}.todo-item:hover{background:rgba(255,255,255,0.06)}.todo-item input[type=checkbox]{margin-top:2px;accent-color:#6366f1;cursor:pointer}.todo-item label{font-size:13px;color:var(--text);cursor:pointer;line-height:1.4}.todo-item.done label{text-decoration:line-through;color:var(--text-muted)}
+.priority-dot{width:7px;height:7px;border-radius:50%;margin-top:5px;flex-shrink:0}.p-high{background:var(--red)}.p-med{background:var(--amber)}.p-low{background:var(--green)}
+.report-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow-card);transition:all .2s ease}.report-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.report-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}.badge-ok{background:var(--green-bg);color:var(--green)}.badge-warn{background:var(--amber-bg);color:var(--amber)}.badge-info{background:var(--blue-bg);color:var(--blue)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse-dot 2s infinite;margin-right:6px}
+.section-divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:24px 0}</style>
 </head>
 <body>
 
@@ -459,7 +470,7 @@
     <div class="nav-tab" onclick="switchTab('pipeline')">Pipeline</div>
     <div class="nav-tab" onclick="switchTab('seller-hub')">Seller Hub</div>
     <div class="nav-tab" onclick="switchTab('daily')">Daily & Weekly</div>
-    <div class="nav-tab" onclick="switchTab('projects')">Active Projects</div>
+    <div class="nav-tab" onclick="switchTab('todo-today')" style="background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(139,92,246,0.15));border:1px solid rgba(99,102,241,0.3);">Today</div><div class="nav-tab" onclick="switchTab('projects')">Active Projects</div>
     <div class="nav-tab" onclick="switchTab('trips')">Trips & Conferences</div>
     <div class="nav-tab" onclick="switchTab('events')">Events</div>
     <div class="nav-tab" onclick="switchTab('hubspot')">HubSpot CRM</div>
@@ -1089,7 +1100,26 @@
   </div>
 
   <!-- ==================== DAILY & WEEKLY ==================== -->
-  <div class="section" id="daily">
+  
+<div id="todo-today" class="section" style="padding:24px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;"><div><div class="section-title" style="margin-bottom:4px;">Today's To-Do</div><div style="font-size:13px;color:var(--text-muted);">Thursday, 9 April 2026 | <span class="live-dot"></span>Synced from Slack</div></div><div style="display:flex;gap:10px;"><div class="report-badge badge-info">13 open</div><div class="report-badge badge-warn">3 urgent</div></div></div>
+<div class="grid-3"><div class="todo-card"><div class="todo-card-header"><div class="todo-card-icon" style="background:linear-gradient(135deg,#f093fb,#f5576c);">🌴</div><div><div class="todo-card-title">POSSIBLE Miami</div><div class="todo-card-subtitle">Apr 13-17, 2026 | 5 items</div></div></div>
+<div class="todo-item"><span class="priority-dot p-high"></span><input type="checkbox" id="pm1" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="pm1">RSVP to Female Quotient event</label></div>
+<div class="todo-item"><span class="priority-dot p-high"></span><input type="checkbox" id="pm2" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="pm2">App launches 13 Apr - ensure all sellers downloaded and set up</label></div>
+<div class="todo-item"><span class="priority-dot p-med"></span><input type="checkbox" id="pm3" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="pm3">Sellers to hit 4 meetings each by 17 Apr</label></div>
+<div class="todo-item"><span class="priority-dot p-med"></span><input type="checkbox" id="pm4" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="pm4">Confirm Nina hotel booking for Miami</label></div>
+<div class="todo-item"><span class="priority-dot p-med"></span><input type="checkbox" id="pm5" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="pm5">Chase Dustin to book hotel - still TBC</label></div></div>
+<div class="todo-card"><div class="todo-card-header"><div class="todo-card-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">🎬</div><div><div class="todo-card-title">Cannes Lions</div><div class="todo-card-subtitle">June 2026 | 3 items</div></div></div>
+<div class="todo-item"><span class="priority-dot p-high"></span><input type="checkbox" id="ca1" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="ca1"><strong>Dustin: Book CLT-BCN flight £590 - EOD today</strong></label></div>
+<div class="todo-item"><span class="priority-dot p-med"></span><input type="checkbox" id="ca2" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="ca2">Align UK flights: Gatwick for South London, Stansted/City for others</label></div>
+<div class="todo-item"><span class="priority-dot p-low"></span><input type="checkbox" id="ca3" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="ca3">Allie Airbnb extension - approved, confirm dates locked</label></div></div>
+<div class="todo-card"><div class="todo-card-header"><div class="todo-card-icon" style="background:linear-gradient(135deg,#667eea,#764ba2);">💬</div><div><div class="todo-card-title">From Seb</div><div class="todo-card-subtitle">DM action items | 5 items</div></div></div>
+<div class="todo-item"><span class="priority-dot p-high"></span><input type="checkbox" id="sb1" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="sb1">Focus on hiring and LinkedIn outreach</label></div>
+<div class="todo-item"><span class="priority-dot p-med"></span><input type="checkbox" id="sb2" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="sb2">Event merch approved - confirm quantities and delivery</label></div>
+<div class="todo-item"><span class="priority-dot p-med"></span><input type="checkbox" id="sb3" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="sb3">Set up HubSpot for US and UK media agencies separately</label></div>
+<div class="todo-item"><span class="priority-dot p-med"></span><input type="checkbox" id="sb4" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="sb4">Breezy handover to SharePoint</label></div>
+<div class="todo-item"><span class="priority-dot p-low"></span><input type="checkbox" id="sb5" onchange="this.closest('.todo-item').classList.toggle('done',this.checked)"><label for="sb5">One-pager for Vantage - chase Dami for edits</label></div></div></div>
+<div class="section-divider"></div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;"><div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;min-width:140px;"><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">POSSIBLE MIAMI</div><div style="font-size:22px;font-weight:700;color:var(--blue);">9 days</div><div style="font-size:11px;color:var(--text-muted);">until event</div></div><div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;min-width:140px;"><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">MEETINGS TARGET</div><div style="font-size:22px;font-weight:700;color:var(--amber);">4/seller</div><div style="font-size:11px;color:var(--text-muted);">by Apr 17</div></div><div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;min-width:140px;"><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">OPEN TO-DOS</div><div style="font-size:22px;font-weight:700;color:var(--red);">13</div><div style="font-size:11px;color:var(--text-muted);">remaining today</div></div></div></div><div class="section" id="daily">
     <div class="section-title">
       <div class="icon" style="background:var(--purple-bg);">D</div>
       Daily & Weekly Rhythm
@@ -2041,16 +2071,8 @@
   </div>
 
   <!-- ==================== MISSING DATA HUB ==================== -->
-  <div class="section" id="missing-data">
-    <div class="section-title">
-      <div class="icon" style="background:var(--red-bg);">!</div>
-      Missing Data Hub
-    </div>
-    <p style="color:var(--text-muted);margin-bottom:20px;font-size:14px;">HubSpot missing data by seller. Bar chart shows who has the most data to fill out. Full spreadsheet embedded below.</p>
-
-    <div class="card" style="margin-bottom:24px;">
-      <h3 style="margin-bottom:16px;">Missing Data Overview by Seller</h3>
-      <div id="missing-data-chart" style="display:flex;flex-direction:column;gap:12px;">
+  <div class="section" id="missing-data"><div class="section-title">Missing Data Reports</div><div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:13px;color:var(--text-muted);"><span class="live-dot"></span>Auto-refreshes daily from HubSpot | Last checked: <strong style="color:var(--text);">09 Apr 2026, 00:02</strong></div><div class="grid-2" style="margin-bottom:20px;"><div class="report-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;"><div><div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;">Missing Line Items</div><div style="font-size:12px;color:var(--text-muted);">Deals in Verbal Approval stage</div></div><span class="report-badge badge-ok">Clear</span></div><div style="font-size:28px;font-weight:700;color:var(--green);margin-bottom:8px;">0</div><div style="background:var(--green-bg);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--green);">All verbal approval deals have line items attached</div></div><div class="report-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;"><div><div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;">Missing IO Documents</div><div style="font-size:12px;color:var(--text-muted);">Deals in Closed Won stage</div></div><span class="report-badge badge-ok">Clear</span></div><div style="font-size:28px;font-weight:700;color:var(--green);margin-bottom:8px;">0</div><div style="background:var(--green-bg);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--green);">All closed won deals have IO documents on file</div></div><div class="report-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;"><div><div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;">Duplicate Deal Numbers</div><div style="font-size:12px;color:var(--text-muted);">Across all active deals</div></div><span class="report-badge badge-ok">Clear</span></div><div style="font-size:28px;font-weight:700;color:var(--green);margin-bottom:8px;">0</div><div style="background:var(--green-bg);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--green);">No duplicate deal numbers detected</div></div><div class="report-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;"><div><div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;">Josh CRM Reports</div><div style="font-size:12px;color:var(--text-muted);">Custom reports from CRM team</div></div><span class="report-badge badge-info">Pending</span></div><div style="font-size:28px;font-weight:700;color:var(--blue);margin-bottom:8px;">-</div><div style="background:var(--blue-bg);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--blue);">Sync with Josh to pull latest custom CRM reports</div></div></div><div class="section-divider"></div><div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:13px;color:var(--text-muted);line-height:1.7;">Reports run daily from HubSpot. To add a Josh report, ask Claude: <span style="background:rgba(99,102,241,0.2);color:#a5b4fc;padding:2px 8px;border-radius:4px;">"Add Josh's [report name] to my missing data reports"</span></div>
+<div id="missing-data-chart" style="display:flex;flex-direction:column;gap:12px;">
         <p style="font-size:13px;color:var(--text-muted);">Loading from spreadsheet data &mdash; see embedded sheet below for full details.</p>
       </div>
     </div>
@@ -2263,5 +2285,6 @@ function removeRequest(seller, index) {
 ['allie','myles','alex','dustin','nina','brianna'].forEach(renderRequests);
 </script>
 
+<script>function td(cb){var i=cb.closest(".todo-item");if(i)i.classList.toggle("done",cb.checked)}</script>
 </body>
 </html>
